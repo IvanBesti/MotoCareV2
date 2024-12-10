@@ -2,14 +2,15 @@ import React from "react";
 import UserLayout from "@/Layouts/UserLayout";
 import styles from "../../../css/User/Home.module.css";
 
+
 const HeroSection = ({ auth, results }) => {
     console.log(auth);
     return (
         <UserLayout auth={auth}>
             <section>
                 <div className="container">
-                    <div className={styles.heroContent}>
-                        <p className={`${styles.sectionSubtitle} :dark`}>
+                    <div className={styles.hero}>
+                        <p className={`${styles["section-subtitle"]} ${styles[":dark"]}`}>
                             Dengan Mekanik Berpengalaman
                         </p>
 
@@ -31,12 +32,9 @@ const HeroSection = ({ auth, results }) => {
 
                     <figure
                         className={styles.heroBanner}
-                        style={{ width: "1228px", height: "789px" }}
                     >
                         <img
                             src="/images/hero-vehicle.png"
-                            width="1228"
-                            height="789"
                             alt="red motor vehicle"
                             className="move-anim"
                         />
@@ -74,7 +72,7 @@ const HeroSection = ({ auth, results }) => {
                             <li className={`${styles["scrollbar-item"]}`}>
                                 <div className={`${styles["work-card"]}`}>
                                     <figure
-                                        className={`${styles["card-banner"]} ${styles["img-holder"]}`}
+                                        className="m-auto"
                                         style={{
                                             width: "350px",
                                             height: "406px",

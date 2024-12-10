@@ -1,28 +1,36 @@
 import PropTypes from "prop-types";
 import "../../css/User/userGlobal.css";
 import styles from "../../css/User/LayoutStyles.module.css";
+import ChatBox from "@/Components/ChatBox";
 import { Link, router } from "@inertiajs/react";
 import { route } from "ziggy-js";
 import { useEffect } from "react";
+import React, { useState } from "react";
 
 export default function UserLayout({ auth, children }) {
     useEffect(() => {
-        const navbar = document.querySelector("[data-navbar]");
-        const navToggler = document.querySelector("[data-nav-toggler]");
-
-        navToggler.addEventListener("click", function () {
-            navbar.classList.toggle("active");
-            this.classList.toggle("active");
-        });
-
-        // Clean up event listener on component unmount
+        const navbar = document.querySelector(`.${styles.navbar}`);
+        const navToggler = document.querySelector(`.${styles["nav-toggle-btn"]}`);
+    
+        const toggleHandler = () => {
+            navbar.classList.toggle(styles.active);
+            navToggler.classList.toggle(styles.active);
+        };
+    
+        if (navbar && navToggler) {
+            navToggler.addEventListener("click", toggleHandler);
+        }
+    
+        // Cleanup listener and reset styles
         return () => {
-            navToggler.removeEventListener("click", function () {
-                navbar.classList.toggle("active");
-                this.classList.toggle("active");
-            });
+            if (navbar) navbar.classList.remove(styles.active);
+            if (navToggler) navToggler.classList.remove(styles.active);
+            navToggler.removeEventListener("click", toggleHandler);
         };
     }, []);
+    
+    
+    
 
     const navItems = [
         {
@@ -50,6 +58,7 @@ export default function UserLayout({ auth, children }) {
             external: false,
         },
         { path: "user.ulasan", label: "Ulasan", external: false },
+        { path: "user.FaQ", label: "FaQ", external: false },
     ];
 
     const handleLogout = (e) => {
@@ -68,6 +77,7 @@ export default function UserLayout({ auth, children }) {
 
     return (
         <>
+            {/* Header */}
             <header className={styles["header"]}>
                 <div className={styles["container"]}>
                     <a href="../user/home" className={styles["logo"]}>
@@ -79,7 +89,7 @@ export default function UserLayout({ auth, children }) {
                         />
                     </a>
 
-                    <nav className={styles["navbar"]} data-navbar>
+                    <nav className={`${styles.navbar}`} data-navbar>
                         <ul className={styles["navbar-list"]}>
                             {navItems.map((item) => (
                                 <li key={item.label}>
@@ -111,10 +121,7 @@ export default function UserLayout({ auth, children }) {
                     </nav>
 
                     {auth && !auth.user ? (
-                        <Link
-                            href={route("auth")}
-                            className={styles["button-login"]}
-                        >
+                        <Link href="/" className={styles["button-login"]}>
                             <span className="span">SIGN IN / SIGN UP</span>
 
                             <box-icon
@@ -154,9 +161,9 @@ export default function UserLayout({ auth, children }) {
                         aria-label="toggle menu"
                         data-nav-toggler
                     >
-                        <span className={styles["nav-toggle-icon"]}></span>
-                        <span className={styles["nav-toggle-icon"]}></span>
-                        <span className={styles["nav-toggle-icon"]}></span>
+                        <span className={`${styles["nav-toggle-icon"]} ${styles["icon-1"]}`}></span>
+                        <span className={`${styles["nav-toggle-icon"]} ${styles["icon-2"]}`}></span>
+                        <span className={`${styles["nav-toggle-icon"]} ${styles["icon-3"]}`}></span>
                     </button>
                 </div>
             </header>
@@ -166,7 +173,8 @@ export default function UserLayout({ auth, children }) {
                     <section>{children}</section>
                 </article>
             </main>
-
+            
+            {/* Footer */}
             <footer className={styles["footer"]}>
                 <div className={styles["footer-top"]}>
                     <div className={styles["container"]}>
@@ -357,6 +365,8 @@ export default function UserLayout({ auth, children }) {
                         />
                     </div>
                 </div>
+                {/* Chatbox Component */}
+            <ChatBox />
             </footer>
         </>
     );

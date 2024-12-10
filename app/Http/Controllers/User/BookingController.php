@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\User;
 use App\Models\Katalog;
-use App\Models\Invoice;
+use App\Models\JenisLayanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -13,51 +13,61 @@ use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
-    // menampilkan daftar semua booking
+    // Menampilkan daftar semua booking
     public function index()
     {
         $bookings = Booking::all();
         $katalogs = Katalog::all();
-        return Inertia::render('User/Booking', compact('bookings', 'katalogs'));
+        $jenisLayanans = JenisLayanan::all();
+
+        // Debug data jenisLayanans
+        // dd($jenisLayanans->toArray());
+
+        return Inertia::render('User/Booking', compact('bookings', 'katalogs', 'jenisLayanans'));
     }
 
-    // menampilkan form untuk tambah booking
-    
+    // Menyimpan data booking
+public function store(Request $request)
+{
+    // Validasi data dari request
+    $validatedData = $request->validate([
+        'user_id' => 'required',
+        'jenis_layanan_id' => 'required',
+        'katalog_id' => 'required',
+        'tahun_pembuatan' => 'required|numeric',
+        'nomor_polisi' => 'required',
+        'km_kendaraan' => 'required|numeric',
+        'jadwal_booking' => 'required|date',
+        'catatan' => 'required',
+    ]);
 
-    public function store(Request $request)
-    {
-        // dd($request->all());
-        
+    // Ambil nama jenis layanan berdasarkan ID
+    $jenisLayanan = JenisLayanan::findOrFail($validatedData['jenis_layanan_id']);
 
-        
-        DB::transaction(function () use ($request) {
-            $user = Auth::user(); // Get the currently authenticated user
+    DB::transaction(function () use ($validatedData) {
+        // Simpan booking ke database
+        $booking = Booking::create([
+            'user_id' => $validatedData['user_id'],
+            'jenis_layanan_id' => $validatedData['jenis_layanan_id'],
+            'katalog_id' => $validatedData['katalog_id'],
+            'tahun_pembuatan' => $validatedData['tahun_pembuatan'],
+            'nomor_polisi' => $validatedData['nomor_polisi'],
+            'km_kendaraan' => $validatedData['km_kendaraan'],
+            'jadwal_booking' => $validatedData['jadwal_booking'],
+            'catatan' => $validatedData['catatan'],
+        ]);
 
-            // dd($user);
-            $validatedData = $request->validate([
-                'jenis_layanan' => 'required',
-                'katalog_id' => 'required',
-                'tahun_pembuatan' => 'nullable|numeric',
-                'nomor_polisi' => 'nullable|string',
-                'km_kendaraan' => 'nullable|numeric',
-                'jadwal_booking' => 'required|date',
-                'catatan' => 'nullable',
-            ]);
+        // Simpan invoice otomatis
+        DB::table('invoices')->insert([
+            'booking_id' => $booking->id,
+            'user_id' => $validatedData['user_id'],
+            'status' => 'Unpaid',
+            'tanggal' => now(),
+        ]);
+    });
 
-            // Memanggil stored procedure yang telah diperbarui
-            DB::select('CALL CreateBooking(?, ?, ?, ?, ?, ?, ?, ?)', [
-                $user->id,
-                $validatedData['jenis_layanan'],
-                $validatedData['katalog_id'],
-                $validatedData['tahun_pembuatan'],
-                $validatedData['nomor_polisi'],
-                $validatedData['km_kendaraan'],
-                $validatedData['jadwal_booking'],
-                $validatedData['catatan']
-            ]);
-        });
-
-        return redirect()->route('user.riwayat')->with('success', 'Data booking berhasil ditambahkan');
-    }
+    // Redirect ke halaman riwayat dengan pesan sukses
+    return redirect()->route('user.riwayat')->with('success', 'Data booking dan invoice berhasil ditambahkan');
+}
 }
 ?>

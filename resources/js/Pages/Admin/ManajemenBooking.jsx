@@ -8,6 +8,11 @@ import { Modal, Button } from "react-bootstrap";
 import moment from "moment";
 
 export default function ManajemenBooking({ bookings }) {
+    console.log("Bookings data:", bookings);
+    bookings.forEach((booking, index) => {
+        console.log(`Booking ${index}:`, booking);
+    });
+    console.log(bookings);
     const [showDetail, setShowDetail] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
     const [selectedBooking, setSelectedBooking] = useState(null);
@@ -18,27 +23,28 @@ export default function ManajemenBooking({ bookings }) {
     const [filteredBookings, setFilteredBookings] = useState(bookings);
 
     useEffect(() => {
-        const results = bookings.filter(
-            (booking) =>
+        const results = bookings.filter((booking) => {
+            return (
                 booking.user_nama
-                    .toLowerCase()
+                    ?.toLowerCase()
                     .includes(searchTerm.toLowerCase()) ||
                 booking.nomor_polisi
-                    .toLowerCase()
+                    ?.toLowerCase()
                     .includes(searchTerm.toLowerCase()) ||
                 booking.jenis_layanan
-                    .toLowerCase()
+                    ?.toLowerCase()
                     .includes(searchTerm.toLowerCase()) ||
                 booking.jadwal_booking
-                    .toLowerCase()
+                    ?.toLowerCase()
                     .includes(searchTerm.toLowerCase()) ||
                 booking.booking_status
-                    .toLowerCase()
+                    ?.toLowerCase()
                     .includes(searchTerm.toLowerCase()) ||
                 booking.invoice_status
-                    .toLowerCase()
+                    ?.toLowerCase()
                     .includes(searchTerm.toLowerCase())
-        );
+            );
+        });
         setFilteredBookings(results);
     }, [searchTerm, bookings]);
 
@@ -192,6 +198,7 @@ export default function ManajemenBooking({ bookings }) {
                     }
                 );
             },
+            width: "14%",
         },
         {
             name: "Status Pembayaran",
@@ -219,16 +226,6 @@ export default function ManajemenBooking({ bookings }) {
                     >
                         <box-icon
                             name="file"
-                            type="solid"
-                            color="#f16211"
-                        ></box-icon>
-                    </Link>
-                    <Link
-                        title="Detail"
-                        href={route("admin.booking.show", [row.booking_id])}
-                    >
-                        <box-icon
-                            name="info-circle"
                             type="solid"
                             color="#f16211"
                         ></box-icon>

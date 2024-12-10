@@ -5,13 +5,18 @@ import { Link, useForm, Head, router } from "@inertiajs/react";
 import { Button, Col, Row } from "react-bootstrap";
 
 export default function Riwayat({ bookings, users, invoices, auth }) {
+    console.log("Bookings:", bookings);
     const [selectedBookingId, setSelectedBookingId] = useState(null);
     const [selectedBooking, setSelectedBooking] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [bookingList, setBookingList] = useState(bookings);
     const [number, setNumber] = useState(1);
 
+    console.log(bookings);
+
     useEffect(() => {
+        console.log("Selected Booking:", selectedBooking);
+        console.log("Selected Booking User:", selectedBooking?.user);
         if (auth.user) {
             setBookingList(
                 bookings.filter((booking) => booking.user_id === auth.user.id)
@@ -29,50 +34,24 @@ export default function Riwayat({ bookings, users, invoices, auth }) {
     const handleBookingClick = (id) => {
         setSelectedBookingId(id);
 
-        setSelectedBooking(bookings.find((booking) => booking.id === id));
+        // Pastikan data booking valid
+        const booking = bookings.find((booking) => booking.id === id);
+        if (booking) {
+            setSelectedBooking(booking);
+        } else {
+            console.error("Booking tidak ditemukan");
+        }
     };
 
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value.toLowerCase());
     };
 
-    const filteredBookings = bookingList.filter((booking, index) => {
-        const indexVal = index + 1;
-        const userVal = booking.user.nama
-            .toString()
-            .toLowerCase()
-            .includes(searchTerm);
-        const merk = booking.katalog.merk
-            .toString()
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase());
-        const model = booking.katalog.model
-            .toString()
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase());
-        const polisiVal = booking.nomor_polisi
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase());
-        const jenisLayananVal = booking.jenis_layanan
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase());
-        const statusVal = booking.status
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase());
-        const invoiceStatusVal = booking.invoice.status
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase());
-
-        return (
-            userVal ||
-            merk ||
-            model ||
-            polisiVal ||
-            jenisLayananVal ||
-            statusVal ||
-            invoiceStatusVal
-        );
-    });
+    const filteredBookings = bookingList
+        .filter((booking) =>
+            booking.id.toString().toLowerCase().includes(searchTerm)
+        )
+        .sort((a, b) => a.id - b.id); // Urutkan berdasarkan ID secara ascending
 
     useEffect(() => {
         console.log(bookings, users); // Check the initial values
@@ -136,7 +115,8 @@ export default function Riwayat({ bookings, users, invoices, auth }) {
                                                             )
                                                         }
                                                     >
-                                                        Booking {index + 1}
+                                                        Booking {index + 1}{" "}
+                                                        {/* Urutan sesuai dengan daftar terurut */}
                                                     </li>
                                                 )
                                             )}
@@ -149,23 +129,19 @@ export default function Riwayat({ bookings, users, invoices, auth }) {
                                     id={styles["info-booking-pemilik"]}
                                 >
                                     <h3>
-                                        {selectedBooking &&
-                                            selectedBooking.katalog.merk +
-                                                " " +
-                                                selectedBooking.katalog.model +
-                                                " - " +
-                                                selectedBooking.jenis_layanan}
+                                        {selectedBooking?.katalog?.merk ||
+                                            "Merk tidak tersedia"}{" "}
+                                        -
+                                        {selectedBooking?.jenis_layanan
+                                            ?.jenis_layanan ||
+                                            "Jenis layanan tidak tersedia"}
                                     </h3>
                                     <table className={styles["info-pemilik"]}>
                                         <tbody>
                                             <tr>
                                                 <td>Nama Pemilik</td>
                                                 {/* AMBIL DARI TABEL USERS */}
-                                                <td>
-                                                    {selectedBooking &&
-                                                        selectedBooking.user
-                                                            .nama}
-                                                </td>
+                                                <td>{selectedBooking?.user?.nama || "Nama tidak tersedia"}</td>
                                             </tr>
                                             <tr>
                                                 <td>No. Polisi</td>
@@ -190,25 +166,31 @@ export default function Riwayat({ bookings, users, invoices, auth }) {
                                                 <td>Jenis Layanan</td>
                                                 <td>
                                                     {selectedBooking &&
-                                                        selectedBooking.jenis_layanan}
+                                                        selectedBooking
+                                                            .jenis_layanan
+                                                            .jenis_layanan}
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>Status</td>
                                                 {/* AMBIL DARI TABEL INVOICES */}
                                                 <td>
-                                                    {
-                                                        // status booking kalau kosong akan default menjadi "Diproses"
-                                                        (selectedBooking &&
-                                                            (selectedBooking.status ??
-                                                                "Diproses")) +
-                                                            " - " +
-                                                            (selectedBooking &&
-                                                                (selectedBooking
-                                                                    .invoice
-                                                                    .status ??
-                                                                    "Unpaid"))
-                                                    }
+                                                    {selectedBooking &&
+                                                    selectedBooking.status !==
+                                                        undefined &&
+                                                    selectedBooking.invoice &&
+                                                    selectedBooking.invoice
+                                                        .status
+                                                        ? `${
+                                                              selectedBooking.status ??
+                                                              "Diproses"
+                                                          } - ${
+                                                              selectedBooking
+                                                                  .invoice
+                                                                  .status ??
+                                                              "Unpaid"
+                                                          }`
+                                                        : "Status tidak tersedia"}
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -226,6 +208,27 @@ export default function Riwayat({ bookings, users, invoices, auth }) {
                                             className={styles["info-invoice"]}
                                         >
                                             <tbody>
+                                                <tr>
+                                                    <td>
+                                                        {
+                                                            selectedBooking
+                                                                ?.jenis_layanan
+                                                                ?.jenis_layanan
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        {
+                                                            selectedBooking
+                                                                ?.jenis_layanan
+                                                                ?.harga
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        {selectedBooking?.jenis_layanan
+                                                            ? 1
+                                                            : ""}
+                                                    </td>
+                                                </tr>
                                                 {selectedBooking &&
                                                 selectedBooking.invoice
                                                     ?.items ? (
@@ -288,20 +291,20 @@ export default function Riwayat({ bookings, users, invoices, auth }) {
                                                         {selectedBooking &&
                                                         selectedBooking.invoice ? (
                                                             <div>
-                                                                {/* hitung total harga */}
+                                                                {/* hitung total harga termasuk harga jenis layanan */}
                                                                 {selectedBooking.invoice.items
                                                                     .reduce(
                                                                         (
                                                                             total,
                                                                             item
-                                                                        ) => {
-                                                                            return (
-                                                                                total +
-                                                                                item.jumlah *
-                                                                                    item.harga
-                                                                            );
-                                                                        },
-                                                                        0
+                                                                        ) =>
+                                                                            total +
+                                                                            item.jumlah *
+                                                                                item.harga,
+                                                                        selectedBooking
+                                                                            .jenis_layanan
+                                                                            ?.harga ||
+                                                                            0 // Menambahkan harga layanan sebagai nilai awal
                                                                     )
                                                                     .toLocaleString(
                                                                         "id-ID",
