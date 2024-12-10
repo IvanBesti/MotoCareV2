@@ -7,8 +7,6 @@ import { route } from "ziggy-js";
 import { useEffect } from "react";
 import React, { useState } from "react";
 
-// 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
-
 export default function UserLayout({ auth, children }) {
     useEffect(() => {
         const navbar = document.querySelector(`.${styles.navbar}`);
