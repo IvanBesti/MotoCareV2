@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+
 body {
     background-image: url("../../images/hero-banner.png");
 }
@@ -7,6 +10,10 @@ body {
     font-size: var(--fs);
     width: 1em;
     overflow: hidden;
+}
+
+.container {
+    padding-inline: 16px;
 }
 
 /*-----------------------------------*\
@@ -58,7 +65,7 @@ body {
 
 .header .container {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -78,7 +85,7 @@ body {
 }
 
 .nav-toggle-btn.active .nav-toggle-icon {
-    background-color: #f16211; /* Contoh warna saat aktif */
+    background-color: var(--white); /* Contoh warna saat aktif */
 }
 
 .nav-toggle-btn.active .icon-2 {
@@ -112,8 +119,9 @@ body {
     transform: translateY(0);
     opacity: 1;
     visibility: visible;
-    transition-duration: 0.5s;
+    transition-duration: 1.5s;
     display: block;
+    font-weight: 2rem;
 }
 
 .navbar-link {
@@ -124,6 +132,7 @@ body {
     transition: var(--transition);
     text-decoration: none;
     display: block;
+    font-size: 2rem;
 }
 
 .navbar-link:is(:hover, :focus-visible) {
@@ -140,6 +149,11 @@ body {
     transform: translateX(-50%);
     z-index: 5;
 }
+
+/*-----------------------------------*\
+  #TOP CUSTOMER
+\*-----------------------------------*/
+
 
 /*-----------------------------------*\
   #FOOTER
@@ -262,7 +276,7 @@ body {
    */
 
     .scrollbar-item {
-        min-width: calc(50% - 15px);
+        min-width: calc(50% - 10px);
     }
 
     /**
@@ -324,7 +338,7 @@ body {
     }
 
     .header .container {
-        /* gap: 3px; */
+        gap: 3px;
     }
 
     .navbar,
@@ -342,7 +356,7 @@ body {
     .navbar-link {
         position: relative;
         font-size: unset;
-        font-size: 1.29rem;
+        font-size: 1.3rem;
     }
 
     .navbar-link:is(:hover, :focus-visible) {
@@ -367,6 +381,13 @@ body {
         display: flex;
         padding: 10px 20px;
         font-size: 1.2rem;
+    }
+
+    /**
+   * WORK
+   */
+   .scrollbar-item {
+    min-width: calc(33.33% - 20px);
     }
 }
 
@@ -404,7 +425,7 @@ body {
     }
 
     .navbar-link {
-        font-size: 16px;
+        font-size: 1.5rem;
     }
 
     .header .button-login {
@@ -465,6 +486,10 @@ body {
 
     .header .button-login {
         padding: 18px 36px;
+    }
+
+    .navbar-link {
+        font-size: 2rem;
     }
 
     /**

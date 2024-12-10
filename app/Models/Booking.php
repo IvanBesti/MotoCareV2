@@ -23,8 +23,18 @@ class Booking extends Model
         return $this->belongsTo(Katalog::class);
     }
 
-    public function invoice(): HasOne
+    // Model Booking
+    public function invoice()
     {
-        return $this->hasOne(Invoice::class);
+        return $this->hasOne(Invoice::class, 'booking_id', 'id');
+    }
+
+    public function jenisLayanan(): BelongsTo
+    {
+        return $this->belongsTo(JenisLayanan::class, 'jenis_layanan_id', 'id')
+            ->withDefault([
+                'jenis_layanan' => 'Jenis layanan tidak tersedia',
+                'harga' => 0,
+            ]);
     }
 }

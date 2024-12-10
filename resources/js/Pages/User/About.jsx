@@ -21,7 +21,7 @@ export default function About({ auth }) {
                     </figure>
 
                     <div className={`${styles["about-content"]}`}>
-                        <p className={`${styles["section-subtitle"]}`}>
+                        <p className={`${styles["section-subtitle"]} ${styles[":dark"]}`}>
                             Tentang Kami
                         </p>
 
@@ -96,7 +96,7 @@ export default function About({ auth }) {
             <section className="section work" aria-labelledby="work-label">
                 <div className={`${styles["container"]}`}>
                     <p
-                        className={`${styles["section-subtitle"]} ${styles["light"]}`}
+                        className={`${styles["section-subtitle"]} ${styles[":dark"]}`}
                         style={{
                             color: "white",
                         }}
@@ -129,20 +129,20 @@ export default function About({ auth }) {
                                         width="350"
                                         height="406"
                                         loading="lazy"
-                                        alt="Engine Repair"
+                                        alt="Profile-1"
                                         className={`${styles["img-cover"]}`}
                                     />
                                 </figure>
 
                                 <div className={`${styles["card-content"]}`}>
                                     <p className={`${styles["card-subtitle"]}`}>
-                                        KETUA
+                                        PM
                                     </p>
 
                                     <h3
                                         className={`${styles["h3"]} ${styles["card-title"]}`}
                                     >
-                                        MOCHAMMAD RAKANDIYA
+                                        NADIA AQMARINA GHAISANY
                                     </h3>
 
                                     <a
@@ -183,13 +183,14 @@ export default function About({ auth }) {
 
                                 <div className={`${styles["card-content"]}`}>
                                     <p className={`${styles["card-subtitle"]}`}>
-                                        ANGGOTA
+                                        FULL STACK
                                     </p>
 
                                     <h3
                                         className={`${styles["h3"]} ${styles["card-title"]}`}
                                     >
-                                        IVAN JAELANI BESTI
+                                        IVAN JAELANI  <br></br>
+                                        BESTI
                                     </h3>
 
                                     <a
@@ -223,20 +224,21 @@ export default function About({ auth }) {
                                         width="350"
                                         height="406"
                                         loading="lazy"
-                                        alt="Battery Adjust"
+                                        alt="Profile-3"
                                         className={`${styles["img-cover"]}`}
                                     />
                                 </figure>
 
                                 <div className={`${styles["card-content"]}`}>
                                     <p className={`${styles["card-subtitle"]}`}>
-                                        ANGGOTA
+                                        BACKEND
                                     </p>
 
                                     <h3
                                         className={`${styles["h3"]} ${styles["card-title"]}`}
                                     >
-                                        RIFDAH HANSYA ROFIFAH
+                                        M AYUB PUTRA <br></br>
+                                        FERDIAN
                                     </h3>
 
                                     <a
@@ -256,52 +258,6 @@ export default function About({ auth }) {
                             </div>
                         </li>
 
-                        <li className={`${styles["scrollbar-item"]}`}>
-                            <div className={`${styles["work-card"]}`}>
-                                <figure
-                                    className={`${styles["card-banner"]} ${styles["img-holder"]}`}
-                                    style={{
-                                        width: "350px",
-                                        height: "406px",
-                                    }}
-                                >
-                                    <img
-                                        src="/images/work-4.png"
-                                        width="350"
-                                        height="406"
-                                        loading="lazy"
-                                        alt="Car Tyre change"
-                                        className={`${styles["img-cover"]}`}
-                                    />
-                                </figure>
-
-                                <div className={`${styles["card-content"]}`}>
-                                    <p className={`${styles["card-subtitle"]}`}>
-                                        ANGGOTA
-                                    </p>
-
-                                    <h3
-                                        className={`${styles["h3"]} ${styles["card-title"]}`}
-                                    >
-                                        RAIHAN NURAZHAR
-                                    </h3>
-
-                                    <a
-                                        href="#"
-                                        className={`${styles["card-btn"]}`}
-                                    >
-                                        <span
-                                            className={`${styles["next-icon"]}`}
-                                        >
-                                            <box-icon
-                                                name="right-arrow-alt"
-                                                color="white"
-                                            ></box-icon>
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
-                        </li>
                     </ul>
                 </div>
             </section>

@@ -8,7 +8,7 @@
     padding: 30px;
 }
 
-section {
+.section {
     border-radius: 25px;
     padding: 30px;
 }
@@ -18,9 +18,6 @@ section {
     padding: 0 20px;
     /* flex: 1; */
     box-sizing: border-box;
-}
-
-.laporan-kondisi {
 }
 
 .search-button {
@@ -126,8 +123,10 @@ ul#booking-list {
 .history-booking {
     background-color: var(--white);
     width: 70%;
-    /* gap: 10px;  */
-    /* margin-bottom: 30px; */
+    border-radius: 25px;
+    padding: 30px;
+    gap: 10px; 
+    margin-bottom: 50px;
 }
 
 #kolom-2 {

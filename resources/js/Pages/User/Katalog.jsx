@@ -12,21 +12,20 @@ export default function Katalog({ katalogs, auth }) {
     const [currentProduct, setCurrentProduct] = useState(null);
 
     useEffect(() => {
-        console.log("katalogs prop:", katalogs); // Pastikan data diterima dengan benar
-
-        if (katalogs) {
-            const data_katalog = katalogs;
-            const list_all = data_katalog.reduce((acc, product) => {
+        if (Array.isArray(katalogs)) {
+            const list_all = katalogs.reduce((acc, product) => {
                 if (!acc[product.merk]) {
                     acc[product.merk] = [];
                 }
                 acc[product.merk].push(product);
                 return acc;
             }, {});
-
-            const list_merk = Object.keys(list_all);
+    
+            const list_merk = Object.keys(list_all);21
             setMerkList(list_merk);
-            setKatalogState(data_katalog);
+            setKatalogState(katalogs);
+        } else {
+            console.error("Invalid katalogs data:", katalogs);
         }
     }, [katalogs]);
 
@@ -97,7 +96,7 @@ export default function Katalog({ katalogs, auth }) {
             <div className={styles["backgroundImage"] + "my-5"}>
                 <main>
                     <article className={styles["article"]}>
-                        <section>
+                        <section className={styles.section}>
                             <div className="mt-4">
                                 <div className={styles["row"]}>
                                     <section className={styles["form-katalog"]}>

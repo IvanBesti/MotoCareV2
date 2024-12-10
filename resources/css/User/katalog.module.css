@@ -1,198 +1,11 @@
 /*-----------------------------------*\
-  #style.css
-\*-----------------------------------*/
-
-/*-----------------------------------*\
-  #CUSTOM PROPERTY
-\*-----------------------------------*/
-
-:root {
-    --base-color: #f16211;
-    --international-orange-engineering: #f16211;
-    --secondary-orange: #391907;
-    --cadet-blue-creyola: hsl(222, 14%, 69%);
-    --oxford-blue-1: hsl(222, 47%, 15%);
-    --oxford-blue-2: hsl(222, 44%, 14%);
-    --oxford-blue-3: hsl(222, 50%, 11%);
-    --sonic-silver: hsl(0, 0%, 44%);
-    --space-cadet: hsl(222, 44%, 18%);
-    --pastel-pink: hsl(1, 53%, 75%);
-    --eerie-black: hsl(0, 0%, 15%);
-    --light-gray: hsl(0, 0%, 80%);
-    --white: hsl(0, 0%, 100%);
-
-    /**
-     * typography
-     */
-
-    --ff-chakra-petch: "Chakra Petch", sans-serif;
-    --ff-mulish: "Mulish", sans-serif;
-    --ff-Poppins: "Poppins", sans-serif;
-    --ff-Inter: "Inter", sans-serif;
-
-    --fs-1: 3.5rem;
-    --fs-2: 3rem;
-    --fs-3: 2.4rem;
-    --fs-4: 1.8rem;
-    --fs-5: 1.4rem;
-    --fs-6: 1.2rem;
-
-    --fw-400: 400;
-    --fw-600: 600;
-    --fw-700: 700;
-    /**
-     * typography
-     */
-
-    --ff-chakra-petch: "Chakra Petch", sans-serif;
-    --ff-mulish: "Mulish", sans-serif;
-    --ff-Poppins: "Poppins", sans-serif;
-    --ff-Inter: "Inter", sans-serif;
-
-    --fs-1: 3.5rem;
-    --fs-2: 3rem;
-    --fs-3: 2.4rem;
-    --fs-4: 1.8rem;
-    --fs-5: 1.4rem;
-    --fs-6: 1.2rem;
-
-    --fw-400: 400;
-    --fw-600: 600;
-    --fw-700: 700;
-
-    /**
-      * spacing
-      */
-
-    --section-padding: 60px;
-
-    /**
-      * box shadow
-      */
-
-    --shadow: 0px 0px 100px 0px hsl(216, 9%, 90%);
-
-    /**
-      * border radius
-      */
-
-    --radius-pill: 100px;
-    --radius-circle: 50%;
-
-    /**
-      * transition
-      */
-
-    --transition: 0.25s ease;
-    --cubic-out: cubic-bezier(0.05, 0.83, 0.52, 0.97);
-}
-
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-li {
-    list-style: none;
-}
-
-a,
-img,
-span,
-button {
-    display: block;
-}
-
-a {
-    color: inherit;
-    text-decoration: none;
-}
-
-img {
-    height: auto;
-}
-
-button {
-    background: none;
-    border: none;
-    font: inherit;
-    cursor: pointer;
-}
-
-address {
-    font-style: normal;
-}
-
-html {
-    font-family: var(--ff-mulish);
-    font-size: 10px;
-    scroll-behavior: smooth;
-}
-
-html,
-body {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    background-color: var(--eerie-black);
-    color: var(--sonic-silve);
-    font-size: 1.6rem;
-    line-height: 1.5;
-}
-
-:focus-visible {
-    outline-offset: 4px;
-}
-
-::-webkit-scrollbar {
-    width: 10px;
-}
-
-::-webkit-scrollbar-track {
-    background-color: var(--eerie-black);
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: var(--international-orange-engineering);
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background-color: hsl(0, 0%, 70%);
-}
-
-/*-----------------------------------*\
     #REUSED STYLE
   \*-----------------------------------*/
 
-.container {
-    padding-inline: 16px;
-    margin: auto;
-}
-
-.material-symbols-rounded {
-    --fs: 1em;
-    font-variation-settings: "FILL" 0, "wght" 600, "GRAD" 0, "opsz" 40;
-    font-size: var(--fs);
-    width: 1em;
-    overflow: hidden;
-}
-
-.has-bg-image {
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: left;
-}
-
-section {
+.section {
     padding-block: 30px;
     display: flex;
-    width: 100px;
+    width: auto;
 }
 
 .section-subtitle {
@@ -308,10 +121,6 @@ section {
     }
 }
 
-.section {
-    padding-block: var(--section-padding);
-}
-
 .btn-link {
     font-family: var(--ff-Inter);
     text-transform: uppercase;
@@ -379,6 +188,7 @@ section {
     width: 85vw;
     height: 100%;
     text-align: -webkit-center;
+    display: flex;
 }
 
 .left-panel {

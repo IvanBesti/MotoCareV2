@@ -3,6 +3,7 @@ import { useForm, Link, router, usePage } from "@inertiajs/react";
 import UserLayout from "@/Layouts/UserLayout";
 import styles from "../../../css/User/TambahProfil.module.css";
 
+
 export default function TambahProfil({ auth, userId }) {
     const errMessage = usePage().props.errors;
     const { data, setData, post, errors } = useForm({
@@ -42,9 +43,8 @@ export default function TambahProfil({ auth, userId }) {
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log(data);
-        router.post(route("profile.store", { id: userId }), {
-            _method: "PUT",
-            method: "PUT",
+        router.put(route("profile.store", { id: userId }), {
+            _method: "PUT", // Optional, only needed if you're using a "POST" method to simulate PUT in HTML forms
             data: data,
             onSuccess: () => {
                 console.log("Profile updated successfully");
@@ -54,6 +54,7 @@ export default function TambahProfil({ auth, userId }) {
             },
         });
     };
+    
 
     return (
         <UserLayout auth={auth}>

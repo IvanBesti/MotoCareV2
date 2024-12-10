@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import UserLayout from "@/Layouts/UserLayout";
 import styles from "../../css/Register.module.css";
-import { useForm } from "@inertiajs/react";
+import { useForm, router } from "@inertiajs/react";
+import { route } from "ziggy-js";
 
 export default function Register({ auth, flash }) {
     const wrapperRef = useRef(null);
@@ -9,8 +10,19 @@ export default function Register({ auth, flash }) {
     const loginLinkRefFromForgot = useRef(null);
     const registerLinkRef = useRef(null);
     const forgotLinkRef = useRef(null);
+    const [showPassword, setShowPassword] = React.useState(false);
 
     // console.log(flash);
+
+    useEffect(() => {
+        if (auth.user) {
+            router.visit(route("user.home"), {
+                onSuccess: () => {
+                    console.log("User is logged in");
+                },
+            });
+        }
+    }, []);
 
     useEffect(() => {
         const wrapper = wrapperRef.current;
@@ -280,6 +292,7 @@ export default function Register({ auth, flash }) {
                                                 value={loginData.email}
                                                 onChange={handleLoginChange}
                                                 required
+                                                className="block w-full pr-12 border-none focus:ring-0 focus:outline-none rounded-md"
                                             />
                                             <label>Email</label>
                                             {loginErrors.email && (
@@ -291,7 +304,9 @@ export default function Register({ auth, flash }) {
                                                 </small>
                                             )}
                                         </div>
-                                        <div className={styles["input-box"]}>
+                                        <div
+                                            className={`${styles["input-box"]} relative`}
+                                        >
                                             <span className={styles.icon}>
                                                 <box-icon
                                                     name="lock-alt"
@@ -300,12 +315,57 @@ export default function Register({ auth, flash }) {
                                                 ></box-icon>
                                             </span>
                                             <input
-                                                type="password"
+                                                type={
+                                                    showPassword
+                                                        ? "text"
+                                                        : "password"
+                                                }
                                                 name="password"
                                                 value={loginData.password}
                                                 onChange={handleLoginChange}
                                                 required
+                                                className="block w-full pr-12 border-none focus:ring-0 focus:outline-none rounded-md"
                                             />
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    setShowPassword(
+                                                        !showPassword
+                                                    )
+                                                }
+                                                className="absolute inset-y-0 right-0 pr-16 text-gray-500 hover:text-gray-700 flex items-center gap-2"
+                                            >
+                                                {showPassword ? (
+                                                    <>
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 24 24"
+                                                            fill="currentColor"
+                                                            className="w-8 h-8"
+                                                        >
+                                                            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                                            <path
+                                                                fillRule="evenodd"
+                                                                d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z"
+                                                                clipRule="evenodd"
+                                                            />
+                                                        </svg>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 24 24"
+                                                            fill="currentColor"
+                                                            className="w-8 h-8 text-orange-500"
+                                                        >
+                                                            <path d="M3.53 2.47a.75.75 0 0 0-1.06 1.06l18 18a.75.75 0 1 0 1.06-1.06l-18-18ZM22.676 12.553a11.249 11.249 0 0 1-2.631 4.31l-3.099-3.099a5.25 5.25 0 0 0-6.71-6.71L7.759 4.577a11.217 11.217 0 0 1 4.242-.827c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113Z" />
+                                                            <path d="M15.75 12c0 .18-.013.357-.037.53l-4.244-4.243A3.75 3.75 0 0 1 15.75 12ZM12.53 15.713l-4.243-4.244a3.75 3.75 0 0 0 4.244 4.243Z" />
+                                                            <path d="M6.75 12c0-.619.107-1.213.304-1.764l-3.1-3.1a11.25 11.25 0 0 0-2.63 4.31c-.12.362-.12.752 0 1.114 1.489 4.467 5.704 7.69 10.675 7.69 1.5 0 2.933-.294 4.242-.827l-2.477-2.477A5.25 5.25 0 0 1 6.75 12Z" />
+                                                        </svg>
+                                                    </>
+                                                )}
+                                            </button>
                                             <label>Password</label>
                                             {loginErrors.password && (
                                                 <small
@@ -322,9 +382,14 @@ export default function Register({ auth, flash }) {
                                             }
                                             style={{ marginTop: "10px" }}
                                         >
-                                            <label>
-                                                <input type="checkbox" />{" "}
-                                                Remember me
+                                            <label className="flex items-center space-x-3 cursor-pointer">
+                                                <input
+                                                    type="checkbox"
+                                                    className="peer w-5 h-5 border-2 border-gray-400 rounded-md focus:ring-2 focus:ring-orange-500 checked:bg-orange-500 checked:border-orange-500 transition-all"
+                                                />
+                                                <span className="text-gray-700 peer-checked:text-orange-600">
+                                                    Remember me
+                                                </span>
                                             </label>
                                             <a href="#" ref={forgotLinkRef}>
                                                 Forgot Password?
@@ -378,6 +443,7 @@ export default function Register({ auth, flash }) {
                                                 onChange={handleRegisterChange}
                                                 required
                                                 style={{ marginBottom: "10px" }}
+                                                className="block w-full pr-12 border-none focus:ring-0 focus:outline-none rounded-md"
                                             />
                                             <label>Username</label>
                                             {registerErrors.username && (
@@ -407,6 +473,7 @@ export default function Register({ auth, flash }) {
                                                 onChange={handleRegisterChange}
                                                 required
                                                 style={{ marginBottom: "10px" }}
+                                                className="block w-full pr-12 border-none focus:ring-0 focus:outline-none rounded-md"
                                             />
                                             <label>Email</label>
                                             {registerErrors.email && (
@@ -430,13 +497,58 @@ export default function Register({ auth, flash }) {
                                                 ></box-icon>
                                             </span>
                                             <input
-                                                type="password"
+                                                type={
+                                                    showPassword
+                                                        ? "text"
+                                                        : "password"
+                                                }
                                                 name="password"
                                                 value={registerData.password}
                                                 onChange={handleRegisterChange}
                                                 required
                                                 style={{ marginBottom: "10px" }}
+                                                className="block w-full pr-12 border-none focus:ring-0 focus:outline-none rounded-md"
                                             />
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    setShowPassword(
+                                                        !showPassword
+                                                    )
+                                                }
+                                                className="absolute inset-y-0 right-0 pr-16 text-gray-500 hover:text-gray-700 flex items-center gap-2"
+                                            >
+                                                {showPassword ? (
+                                                    <>
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 24 24"
+                                                            fill="currentColor"
+                                                            className="w-8 h-8"
+                                                        >
+                                                            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                                            <path
+                                                                fillRule="evenodd"
+                                                                d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z"
+                                                                clipRule="evenodd"
+                                                            />
+                                                        </svg>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 24 24"
+                                                            fill="currentColor"
+                                                            className="w-8 h-8 text-orange-500"
+                                                        >
+                                                            <path d="M3.53 2.47a.75.75 0 0 0-1.06 1.06l18 18a.75.75 0 1 0 1.06-1.06l-18-18ZM22.676 12.553a11.249 11.249 0 0 1-2.631 4.31l-3.099-3.099a5.25 5.25 0 0 0-6.71-6.71L7.759 4.577a11.217 11.217 0 0 1 4.242-.827c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113Z" />
+                                                            <path d="M15.75 12c0 .18-.013.357-.037.53l-4.244-4.243A3.75 3.75 0 0 1 15.75 12ZM12.53 15.713l-4.243-4.244a3.75 3.75 0 0 0 4.244 4.243Z" />
+                                                            <path d="M6.75 12c0-.619.107-1.213.304-1.764l-3.1-3.1a11.25 11.25 0 0 0-2.63 4.31c-.12.362-.12.752 0 1.114 1.489 4.467 5.704 7.69 10.675 7.69 1.5 0 2.933-.294 4.242-.827l-2.477-2.477A5.25 5.25 0 0 1 6.75 12Z" />
+                                                        </svg>
+                                                    </>
+                                                )}
+                                            </button>
                                             <label>Password</label>
                                             {registerErrors.password && (
                                                 <small
@@ -459,7 +571,11 @@ export default function Register({ auth, flash }) {
                                                 ></box-icon>
                                             </span>
                                             <input
-                                                type="password"
+                                                type={
+                                                    showPassword
+                                                        ? "text"
+                                                        : "password"
+                                                }
                                                 name="konfirmasi_password"
                                                 value={
                                                     registerData.konfirmasi_password
@@ -467,7 +583,48 @@ export default function Register({ auth, flash }) {
                                                 onChange={handleRegisterChange}
                                                 required
                                                 style={{ marginBottom: "10px" }}
+                                                className="block w-full pr-12 border-none focus:ring-0 focus:outline-none rounded-md"
                                             />
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    setShowPassword(
+                                                        !showPassword
+                                                    )
+                                                }
+                                                className="absolute inset-y-0 right-0 pr-16 text-gray-500 hover:text-gray-700 flex items-center gap-2"
+                                            >
+                                                {showPassword ? (
+                                                    <>
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 24 24"
+                                                            fill="currentColor"
+                                                            className="w-8 h-8"
+                                                        >
+                                                            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                                            <path
+                                                                fillRule="evenodd"
+                                                                d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z"
+                                                                clipRule="evenodd"
+                                                            />
+                                                        </svg>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 24 24"
+                                                            fill="currentColor"
+                                                            className="w-8 h-8 text-orange-500"
+                                                        >
+                                                            <path d="M3.53 2.47a.75.75 0 0 0-1.06 1.06l18 18a.75.75 0 1 0 1.06-1.06l-18-18ZM22.676 12.553a11.249 11.249 0 0 1-2.631 4.31l-3.099-3.099a5.25 5.25 0 0 0-6.71-6.71L7.759 4.577a11.217 11.217 0 0 1 4.242-.827c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113Z" />
+                                                            <path d="M15.75 12c0 .18-.013.357-.037.53l-4.244-4.243A3.75 3.75 0 0 1 15.75 12ZM12.53 15.713l-4.243-4.244a3.75 3.75 0 0 0 4.244 4.243Z" />
+                                                            <path d="M6.75 12c0-.619.107-1.213.304-1.764l-3.1-3.1a11.25 11.25 0 0 0-2.63 4.31c-.12.362-.12.752 0 1.114 1.489 4.467 5.704 7.69 10.675 7.69 1.5 0 2.933-.294 4.242-.827l-2.477-2.477A5.25 5.25 0 0 1 6.75 12Z" />
+                                                        </svg>
+                                                    </>
+                                                )}
+                                            </button>
                                             <label>Konfirmasi Password</label>
                                             {registerErrors.konfirmasi_password && (
                                                 <small
@@ -489,7 +646,7 @@ export default function Register({ auth, flash }) {
                                             }
                                             style={{ marginTop: "10px" }}
                                         >
-                                            <label>
+                                            <label className="flex items-center space-x-3 cursor-pointer">
                                                 <input
                                                     type="checkbox"
                                                     name="isAgree"
@@ -503,9 +660,12 @@ export default function Register({ auth, flash }) {
                                                         )
                                                     }
                                                     required
-                                                />{" "}
-                                                I agree to the terms &
-                                                conditions
+                                                    className="peer w-5 h-5 border-2 border-gray-400 rounded-md focus:ring-2 focus:ring-orange-500 checked:bg-orange-500 checked:border-orange-500 transition-all"
+                                                />
+                                                <span className="text-gray-700 peer-checked:text-orange-600">
+                                                    I agree to the terms &
+                                                    conditions
+                                                </span>
                                             </label>
                                         </div>
                                         <button

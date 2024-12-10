@@ -459,10 +459,10 @@
   
   .hero {
     position: relative;
-    padding-block-start: calc(var(--section-padding) + 70px);
     text-align: center;
     z-index: 1;
     overflow: hidden;
+    padding-block-end: 80px;
   }
   
   .hero .container {
@@ -487,12 +487,12 @@
     aspect-ratio: var(--width) / var(--height);
   }
   
-  .hero-banner img {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 90%;
-    z-index: -1;
+  .heroBanner img {
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* Opsional: Sesuaikan konten gambar agar terlihat rapi */
+    max-width: 100%; /* Untuk memastikan gambar tidak melampaui container */
+    display: none;
   }
   
   /*-----------------------------------*\
@@ -578,7 +578,7 @@
     font-size: var(--fs-6);
   }
 
-  /*-----------------------------------*\
+/*-----------------------------------*\
   #WORK
 \*-----------------------------------*/
 
@@ -689,7 +689,7 @@
       margin-inline: auto;
     }
   
-    .hero .section-text {
+    .hero .sectionText {
       font-size: 1.8rem;
     }
   
@@ -711,6 +711,10 @@
       position: absolute;
       bottom: -30px;
       right: 0;
+    }
+
+    .heroBanner img {
+      display: none;
     }
   }
   
@@ -893,8 +897,8 @@
       text-align: left;
     }
   
-    .hero-banner img {
-      width: 55%;
+    .heroBanner img {
+      display: block;
     }
   }
   
@@ -967,7 +971,7 @@
      */
   
     .hero {
-      padding-block: 250px 180px;
+      padding-block: 20px 180px;
     }
   
     .hero .container {
@@ -1068,14 +1072,15 @@
      */
   
     .hero {
-      padding-block: 280px;
+      padding-block: 20px;
+      text-align: left;
     }
   
-    .hero .section-text {
+    .hero .sectionText {
       padding-inline-end: 90px;
     }
   
-    .hero-banner img {
+    .heroBanner img {
       width: 75%;
     }
   
