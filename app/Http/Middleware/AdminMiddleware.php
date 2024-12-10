@@ -23,7 +23,7 @@ class AdminMiddleware
 
         // Jika pengguna login tetapi bukan admin, redirect ke halaman lain (misalnya dashboard user)
         if (Auth::check() && Auth::user()->role === 'user') {
-            return redirect()->route('user.home')->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+            return $next($request);
         }
 
         // Jika pengguna belum login, redirect ke halaman login
