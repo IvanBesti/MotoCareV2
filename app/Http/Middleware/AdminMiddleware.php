@@ -21,9 +21,12 @@ class AdminMiddleware
             return $next($request);
         }
 
-        // Jika pengguna login tetapi bukan admin, redirect ke halaman lain (misalnya dashboard user)
-        if (Auth::check() && Auth::user()->role === 'user') {
-            return $next($request);
+        // Jika pengguna bukan admin, blokir hanya halaman admin
+        if (Auth::check() && Auth::user()->role !== 'admin') {
+            if ($request->is('admin/*')) { // Blokir hanya rute dengan prefix 'admin'
+                return redirect('/user/home')->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+            }
+            return $next($request); // Izinkan akses ke halaman lain
         }
 
         // Jika pengguna belum login, redirect ke halaman login

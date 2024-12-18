@@ -33,6 +33,11 @@
   color: rgba(0, 0, 0, 0.6);
   font-family: Poppins;
   font-size: 16px;
+  border: none;
+}
+
+.search:focus {
+  box-shadow: none;
 }
 
 .title-form {
@@ -59,10 +64,20 @@
   font-size: 16px;
   border-bottom: 2px solid rgba(183, 182, 182, 0.8);
   width: 100%;
+  border: none; /* Menghapus semua border */
+  border-bottom: 2px solid rgba(241, 98, 17, 0.8); /* Menambahkan hanya border bawah */
+  
 }
 
 .input-gambar[type="file"] {
   display: none;
+}
+
+.input-model:focus,
+.input-merk:focus {
+  outline: none;
+  box-shadow: none;
+  border-bottom: 2px solid rgba(241, 98, 17, 0.8);
 }
 
 .label-gambar {
@@ -120,6 +135,12 @@
   border-radius: 5px;
   resize: none;
   width: 100%;
+}
+
+.deskripsi:focus {
+  outline: none; /* Menghapus outline default */
+  box-shadow: none; /* Menghapus efek shadow */
+  border: 2px solid rgba(241, 98, 17, 0.8); /* Opsional: tambahkan border bawah untuk fokus */
 }
 
 .table .tr .th {

@@ -20,6 +20,11 @@
   color: rgba(0, 0, 0, 0.6);
   font-family: Poppins;
   font-size: 16px;
+  border: none;
+}
+
+.search:focus {
+  box-shadow: none;
 }
 
 .table .tr .th {

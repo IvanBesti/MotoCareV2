@@ -33,5 +33,11 @@
   color: rgba(0, 0, 0, 0.6);
   font-family: Poppins;
   font-size: 16px;
+  border: none;
+}
+
+.input-search:focus {
+  outline: none; /* Menghapus outline default */
+  box-shadow: none; /* Memastikan tidak ada border saat focus */
 }
 

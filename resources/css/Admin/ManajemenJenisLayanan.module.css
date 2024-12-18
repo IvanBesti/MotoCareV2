@@ -43,6 +43,12 @@
     color: rgba(0, 0, 0, 0.6);
     font-family: "Poppins";
     font-size: 16px;
+    border: none;
+}
+
+.search:focus {
+    outline: none; /* Menghapus outline default */
+    box-shadow: none; /* Memastikan tidak ada border saat focus */
 }
 
 .table .tr .th {
@@ -79,6 +85,8 @@
     font-size: 16px;
     border-bottom: 2px solid rgba(183, 182, 182, 0.8);
     width: 100%;
+    border: none;
+    border-bottom: 2px solid rgba(183, 182, 182, 0.8); /* Menambahkan hanya border bawah */
 }
 
 .harga {
@@ -90,4 +98,15 @@
     border-bottom: 2px solid rgba(183, 182, 182, 0.8);
     margin-top: 25px;
     width: 100%;
+    border: none;
+    border-bottom: 2px solid rgba(183, 182, 182, 0.8);
+}
+
+.jenis-layanan:focus,
+.harga:focus
+{
+    outline: none; /* Menghapus outline default */
+    box-shadow: none; /* Menghapus efek shadow */
+    border-bottom: 2px solid rgba(241, 98, 17, 0.8); /* Opsional: tambahkan border bawah untuk fokus */
+
 }
