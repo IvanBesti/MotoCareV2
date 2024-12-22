@@ -5,6 +5,41 @@ const ChatBox = () => {
     const [messages, setMessages] = useState([]);
     const [currentMessage, setCurrentMessage] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const TypingDots = () => (
+        <span className="inline-block">
+            <span className="dot-animation">.</span>
+            <span className="dot-animation">.</span>
+            <span className="dot-animation">.</span>
+            <style jsx>{`
+                .dot-animation {
+                    display: inline-block;
+                    animation: blink 1.5s infinite;
+                    animation-delay: calc(var(--dot-index, 1) * 0.2s);
+                }
+                .dot-animation:nth-child(1) {
+                    --dot-index: 1;
+                }
+                .dot-animation:nth-child(2) {
+                    --dot-index: 2;
+                }
+                .dot-animation:nth-child(3) {
+                    --dot-index: 3;
+                }
+                @keyframes blink {
+                    0%,
+                    20% {
+                        opacity: 0;
+                    }
+                    50% {
+                        opacity: 1;
+                    }
+                    100% {
+                        opacity: 0;
+                    }
+                }
+            `}</style>
+        </span>
+    );
 
     const toggleChat = () => {
         setIsChatOpen(!isChatOpen);
@@ -25,12 +60,58 @@ const ChatBox = () => {
             try {
                 setIsLoading(true);
 
-                // URL dan API Key untuk Google Gemini API
+                // Tambahkan placeholder "AI is typing..."
+                const typingMessage = {
+                    text: (
+                        <span>
+                            Moto lagi ngetik
+                            <TypingDots />
+                        </span>
+                    ),
+                    sender: "Moto-AI",
+                    isCustomer: false,
+                    id: new Date().getTime() + 1,
+                    isTyping: true, // Penanda bahwa ini adalah placeholder
+                };
+
+                setMessages((prevMessages) => [...prevMessages, typingMessage]);
+
+                // Identifikasi pertanyaan terkait model AI
+                const aiRelatedKeywords = [
+                    "gemini ai",
+                    "google ai",
+                    "model ai",
+                    "moto ai",
+                    "moto",
+                ];
+                const isAIQuery = aiRelatedKeywords.some((keyword) =>
+                    currentMessage.toLowerCase().includes(keyword)
+                );
+
+                if (isAIQuery) {
+                    const aiResponse = {
+                        text: "Aku Moto-AI dari MotoCare, siap bantu kamu dengan gaya santai. Ada yang bisa dibantu? ✌️",
+                        sender: "Moto-AI",
+                        isCustomer: false,
+                        id: new Date().getTime() + 2,
+                    };
+
+                    // Hapus "AI is typing..." dan tambahkan respon sebenarnya
+                    setMessages((prevMessages) => [
+                        ...prevMessages.filter((msg) => !msg.isTyping),
+                        aiResponse,
+                    ]);
+                    return;
+                }
+
+                // URL dan API Key
                 const API_URL =
                     "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent";
-                const API_KEY = "AIzaSyBbCEoUi2LpVT-4VjH4ZXh8aCaEpQ-MAd0"; // Gantilah dengan API Key Anda
 
-                // Request ke Gemini API
+                const API_KEY =
+                    import.meta.env.VITE_GEMINI_API_KEY ||
+                    process.env.REACT_APP_GEMINI_API_KEY;
+
                 const response = await fetch(`${API_URL}?key=${API_KEY}`, {
                     method: "POST",
                     headers: {
@@ -53,32 +134,39 @@ const ChatBox = () => {
                 }
 
                 const data = await response.json();
-                console.log("API Response:", data);
-
-                // Mendapatkan respon dari Gemini API
                 const aiResponseText =
                     data.candidates?.[0]?.content?.parts?.[0]?.text ||
-                    "Sorry, I couldn't process your request.";
+                    "Hmm, aku lagi bingung jawabnya. Bisa ulangi nggak? 🙏";
+
+                const modifiedResponse = `${aiResponseText} 😎`;
 
                 const aiResponse = {
-                    text: aiResponseText,
+                    text: modifiedResponse,
                     sender: "Moto-AI",
                     isCustomer: false,
-                    id: new Date().getTime() + 1,
+                    id: new Date().getTime() + 2,
                 };
 
-                setMessages((prevMessages) => [...prevMessages, aiResponse]);
+                // Hapus "AI is typing..." dan tambahkan respon sebenarnya
+                setMessages((prevMessages) => [
+                    ...prevMessages.filter((msg) => !msg.isTyping),
+                    aiResponse,
+                ]);
             } catch (error) {
                 console.error("Error fetching AI response:", error);
 
                 const errorMessage = {
-                    text: `Error: ${error.message}`,
+                    text: `Oops, ada error nih: ${error.message} 🤔`,
                     sender: "Moto-AI",
                     isCustomer: false,
                     id: new Date().getTime() + 1,
                 };
 
-                setMessages((prevMessages) => [...prevMessages, errorMessage]);
+                // Hapus "AI is typing..." dan tambahkan pesan error
+                setMessages((prevMessages) => [
+                    ...prevMessages.filter((msg) => !msg.isTyping),
+                    errorMessage,
+                ]);
             } finally {
                 setIsLoading(false);
             }
@@ -107,96 +195,101 @@ const ChatBox = () => {
             </button>
 
             {/* Chatbox Content */}
-            {/* Chatbox Content */}
-<div
-    className={`fixed bottom-6 right-6 z-[9999] transition-all duration-500 ease-in-out transform ${
-        isChatOpen
-            ? "opacity-100 scale-100 visible pointer-events-auto"
-            : "opacity-0 scale-90 invi pointer-events-none"
-    }`}
->
-    {isChatOpen && (
-        <div className="bg-white w-[400px] h-[600px] rounded-xl shadow-xl mt-4 p-6 flex flex-col">
-            {/* Chatbox Header */}
-            <div className="flex justify-between items-center border-b pb-">
-                <h3 className="text-2xl font-bold text-gray-800 mb-4 ml-2">
-                    Chat with Moto-AI
-                </h3>
-                <button
-                    className="text-gray-500 hover:text-gray-700 transition-colors duration-300 ease-in-out"
-                    onClick={toggleChat}
-                >
-                    ✖
-                </button>
-            </div>
-
-            {/* Chatbox Messages */}
-            <div className="flex-1 overflow-y-auto mt-4 space-y-4">
-                {messages.length === 0 ? (
-                    <p className="text-gray-500 text-xl text-center">
-                        No messages yet
-                    </p>
-                ) : (
-                    messages.map((message) => (
-                        <div
-                            key={message.id}
-                            className={`flex flex-col transition-transform duration-500 ease-in-out ${
-                                message.isCustomer
-                                    ? "items-end"
-                                    : "items-start"
-                            }`}
-                        >
-                            <span
-                                className={`text-sm font-semibold ${
-                                    message.isCustomer
-                                        ? "text-orange-600"
-                                        : "text-gray-600"
-                                }`}
+            <div
+                className={`fixed bottom-6 right-6 z-[9999] transition-all duration-500 ease-in-out transform ${
+                    isChatOpen
+                        ? "opacity-100 scale-100 visible pointer-events-auto"
+                        : "opacity-0 scale-90 invi pointer-events-none"
+                }`}
+            >
+                {isChatOpen && (
+                    <div className="bg-white w-[400px] h-[600px] rounded-xl shadow-xl mt-4 p-6 flex flex-col">
+                        {/* Chatbox Header */}
+                        <div className="flex justify-between items-center border-b pb-">
+                            <h3 className="text-2xl font-bold text-gray-800 mb-4 ml-2">
+                                Chat with Moto-AI
+                            </h3>
+                            <button
+                                className="text-gray-500 hover:text-gray-700 transition-colors duration-300 ease-in-out"
+                                onClick={toggleChat}
                             >
-                                {message.sender}
-                            </span>
-                            <div
-                                className={`p-3 rounded-lg animate-slide-in ${
-                                    message.isCustomer
-                                        ? "bg-orange-100 text-orange-800"
-                                        : "bg-gray-100 text-gray-800"
-                                } max-w-xs`}
-                            >
-                                {message.text}
-                            </div>
+                                ✖
+                            </button>
                         </div>
-                    ))
+
+                        {/* Chatbox Messages */}
+                        <div className="flex-1 overflow-y-auto mt-4 space-y-4">
+                            {messages.length === 0 ? (
+                                <p className="text-gray-500 text-xl text-center">
+                                    No messages yet
+                                </p>
+                            ) : (
+                                messages.map((message) => (
+                                    <div
+                                        key={message.id}
+                                        className={`flex flex-col transition-transform duration-500 ease-in-out ${
+                                            message.isCustomer
+                                                ? "items-end"
+                                                : "items-start"
+                                        }`}
+                                    >
+                                        <span
+                                            className={`text-sm font-semibold ${
+                                                message.isCustomer
+                                                    ? "text-orange-600"
+                                                    : "text-gray-600"
+                                            }`}
+                                        >
+                                            {message.sender}
+                                        </span>
+                                        <div
+                                            className={`p-3 rounded-lg animate-slide-in ${
+                                                message.isCustomer
+                                                    ? "bg-orange-100 text-orange-800"
+                                                    : "bg-gray-100 text-gray-800"
+                                            } max-w-xs`}
+                                        >
+                                            {message.isTyping ? (
+                                                <span className="flex items-center">
+                                                    {message.text}
+                                                </span>
+                                            ) : (
+                                                message.text
+                                            )}
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+
+                        {/* Chatbox Input */}
+                        <div className="mt-4 flex items-center space-x-2">
+                            <input
+                                type="text"
+                                placeholder="Type your message..."
+                                className="flex-1 border text-lg border-gray-300 rounded-lg p-3 focus:outline-none focus:ring focus:ring-orange-500 transition-shadow duration-300 ease-in-out"
+                                value={currentMessage}
+                                onChange={(e) =>
+                                    setCurrentMessage(e.target.value)
+                                }
+                                onKeyDown={(e) =>
+                                    e.key === "Enter" &&
+                                    !isLoading &&
+                                    handleSendMessage()
+                                }
+                                disabled={isLoading}
+                            />
+                            <button
+                                className="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-transform duration-300 ease-in-out transform hover:scale-105"
+                                onClick={handleSendMessage}
+                                disabled={isLoading}
+                            >
+                                {isLoading ? "Sending..." : "Send"}
+                            </button>
+                        </div>
+                    </div>
                 )}
             </div>
-
-            {/* Chatbox Input */}
-            <div className="mt-4 flex items-center space-x-2">
-                <input
-                    type="text"
-                    placeholder="Type your message..."
-                    className="flex-1 border text-lg border-gray-300 rounded-lg p-3 focus:outline-none focus:ring focus:ring-orange-500 transition-shadow duration-300 ease-in-out"
-                    value={currentMessage}
-                    onChange={(e) =>
-                        setCurrentMessage(e.target.value)
-                    }
-                    onKeyDown={(e) =>
-                        e.key === "Enter" &&
-                        !isLoading &&
-                        handleSendMessage()
-                    }
-                    disabled={isLoading}
-                />
-                <button
-                    className="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-transform duration-300 ease-in-out transform hover:scale-105"
-                    onClick={handleSendMessage}
-                    disabled={isLoading}
-                >
-                    {isLoading ? "Sending..." : "Send"}
-                </button>
-            </div>
-        </div>
-    )}
-</div>
         </div>
     );
 };
