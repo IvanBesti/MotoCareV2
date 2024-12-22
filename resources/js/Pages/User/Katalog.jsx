@@ -96,8 +96,9 @@ export default function Katalog({ katalogs, auth }) {
             <div className={styles["backgroundImage"] + "my-5"}>
                 <main>
                     <article className={styles["article"]}>
+                    <h1 className={styles.title}>Katalog</h1>
                         <section className={styles.section}>
-                            <div className="mt-4">
+                            <div className="px-2">
                                 <div className={styles["row"]}>
                                     <section className={styles["form-katalog"]}>
                                         <div className={styles["left-panel"]}>

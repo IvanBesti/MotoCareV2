@@ -439,83 +439,96 @@ export default function Ulasan({
                                 Daftar Ulasan
                             </h1>
                             <div>
-                                {currentReviews.map((review) => (
-                                    <div
-                                        key={review.id}
-                                        className={styles.review}
-                                    >
+                                {currentReviews
+                                    .sort(
+                                        (a, b) =>
+                                            new Date(b.created_at) -
+                                            new Date(a.created_at)
+                                    ) // Urutkan berdasarkan tanggal terbaru
+                                    .map((review) => (
                                         <div
-                                            className={styles["review-header"]}
+                                            key={review.id}
+                                            className={styles.review}
                                         >
-                                            <h3
-                                                className={
-                                                    styles["review-info"]
-                                                }
-                                            >
-                                                {review.jenis_layanan} -{" "}
-                                                {review.user.nama}
-                                            </h3>
                                             <div
                                                 className={
-                                                    styles["rating-value"]
+                                                    styles["review-header"]
                                                 }
                                             >
-                                                {[...Array(5)].map((_, i) => (
-                                                    <span key={i}>
-                                                        <box-icon
-                                                            type="solid"
-                                                            name="star"
-                                                            color={
-                                                                i <
-                                                                parseInt(
-                                                                    review.rating
-                                                                )
-                                                                    ? "#f16211"
-                                                                    : "#ddd"
-                                                            }
-                                                        ></box-icon>
-                                                    </span>
-                                                ))}
+                                                <h3
+                                                    className={
+                                                        styles["review-info"]
+                                                    }
+                                                >
+                                                    {review.jenis_layanan} -{" "}
+                                                    {review.user.nama}
+                                                </h3>
+                                                <div
+                                                    className={
+                                                        styles["rating-value"]
+                                                    }
+                                                >
+                                                    {[...Array(5)].map(
+                                                        (_, i) => (
+                                                            <span key={i}>
+                                                                <box-icon
+                                                                    type="solid"
+                                                                    name="star"
+                                                                    color={
+                                                                        i <
+                                                                        parseInt(
+                                                                            review.rating
+                                                                        )
+                                                                            ? "#f16211"
+                                                                            : "#ddd"
+                                                                    }
+                                                                ></box-icon>
+                                                            </span>
+                                                        )
+                                                    )}
+                                                </div>
+                                                <p
+                                                    className={
+                                                        styles["review-date"]
+                                                    }
+                                                >
+                                                    {moment(
+                                                        review.created_at
+                                                    ).format(
+                                                        "DD-MM-YYYY HH:mm:ss"
+                                                    )}
+                                                </p>
                                             </div>
                                             <p
                                                 className={
-                                                    styles["review-date"]
+                                                    styles["review-description"]
                                                 }
                                             >
-                                                {moment(
-                                                    review.created_at
-                                                ).format("DD-MM-YYYY HH:mm:ss")}
+                                                {review.review}
                                             </p>
+                                            {review.foto_ulasans.map(
+                                                (image, index) => (
+                                                    <img
+                                                        key={index}
+                                                        className={
+                                                            styles["review-img"]
+                                                        }
+                                                        src={
+                                                            "/storage/" +
+                                                            image.foto
+                                                        }
+                                                        alt={`Review ${index}`}
+                                                        onClick={() =>
+                                                            handleShow(
+                                                                review.foto_ulasans,
+                                                                index
+                                                            )
+                                                        }
+                                                    />
+                                                )
+                                            )}
                                         </div>
-                                        <p
-                                            className={
-                                                styles["review-description"]
-                                            }
-                                        >
-                                            {review.review}
-                                        </p>
-                                        {review.foto_ulasans.map(
-                                            (image, index) => (
-                                                <img
-                                                    key={index}
-                                                    className={
-                                                        styles["review-img"]
-                                                    }
-                                                    src={
-                                                        "/storage/" + image.foto
-                                                    }
-                                                    alt={`Review ${index}`}
-                                                    onClick={() =>
-                                                        handleShow(
-                                                            review.foto_ulasans,
-                                                            index
-                                                        )
-                                                    }
-                                                />
-                                            )
-                                        )}
-                                    </div>
-                                ))}
+                                    ))}
                             </div>
                         </div>
 

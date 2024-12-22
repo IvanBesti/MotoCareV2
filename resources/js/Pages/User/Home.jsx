@@ -2,7 +2,6 @@ import React from "react";
 import UserLayout from "@/Layouts/UserLayout";
 import styles from "../../../css/User/Home.module.css";
 
-
 const HeroSection = ({ auth, results }) => {
     console.log(auth);
     return (
@@ -10,7 +9,9 @@ const HeroSection = ({ auth, results }) => {
             <section>
                 <div className="container">
                     <div className={styles.hero}>
-                        <p className={`${styles["section-subtitle"]} ${styles[":dark"]}`}>
+                        <p
+                            className={`${styles["section-subtitle"]} ${styles[":dark"]}`}
+                        >
                             Dengan Mekanik Berpengalaman
                         </p>
 
@@ -29,22 +30,17 @@ const HeroSection = ({ auth, results }) => {
                             <span className="span">Booking Sekarang</span>
                         </a>
                     </div>
-
-                    <figure
-                        className={styles.heroBanner}
-                    >
-                        <img
-                            src="/images/hero-vehicle.png"
-                            alt="red motor vehicle"
-                            className="move-anim"
-                        />
-                    </figure>
+                    <img
+                        src="/images/hero-vehicle.png"
+                        alt="red motor vehicle"
+                        className="move-anim"
+                    />
                 </div>
             </section>
 
             <section
-                className="section work"
-                style={{ padding: "0 0 50px" }}
+                className="section work bg-gray-800 shadow-2xl"
+                // style={{ padding: "0 0 50px" }}
                 aria-labelledby="work-label"
             >
                 <div className={`${styles["container"]}`}>
@@ -66,6 +62,14 @@ const HeroSection = ({ auth, results }) => {
                     >
                         Customer Teratas
                     </h2>
+                    <p className="text-base-2xl  text-gray-200 leading-relaxed max-w-5xl mx-auto text-center mb-20">
+                        Di MotoCare, kami bangga memiliki pelanggan yang setia
+                        dan sering menggunakan layanan kami. Berikut adalah
+                        daftar pelanggan teratas yang telah mempercayakan
+                        perawatan kendaraan mereka kepada kami. Kami sangat
+                        menghargai kepercayaan Anda dan akan terus memberikan
+                        pelayanan terbaik.
+                    </p>
 
                     <ul className={`${styles["has-scrollbar"]}`}>
                         {results.map((result) => (

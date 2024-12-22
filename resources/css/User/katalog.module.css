@@ -6,10 +6,21 @@
     text-decoration: dashed;
 }
 
+h1.title {
+    color: #e5e5e5;
+    font-family: Poppins;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
 .section {
-    padding-block: 30px;
-    display: flex;
-    width: auto;
+    padding-block: var(--section-padding);
 }
 
 .section-subtitle {
