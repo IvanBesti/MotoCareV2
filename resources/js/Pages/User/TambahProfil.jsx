@@ -1,36 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { useForm, Link, router, usePage } from "@inertiajs/react";
+import { route } from "ziggy-js";
+import { useForm, Link, router } from "@inertiajs/react";
 import UserLayout from "@/Layouts/UserLayout";
-import styles from "../../../css/User/TambahProfil.module.css";
 
-
-export default function TambahProfil({ auth, userId }) {
-    const errMessage = usePage().props.errors;
-    const { data, setData, post, errors } = useForm({
-        userId,
-        nama: "",
-        tanggal_lahir: "",
-        no_telepon: "",
-        jenis_kelamin: "Pilih Jenis Kelamin",
+export default function TambahProfil({ auth, userId, user }) {
+    const { data, setData, errors } = useForm({
+        userId: userId || "",
+        nama: user?.nama || "",
+        tanggal_lahir: user?.tanggal_lahir || "",
+        no_telepon: user?.no_telepon || "",
+        jenis_kelamin: user?.jenis_kelamin || "",
         foto: null,
     });
 
-    const [previewImage, setPreviewImage] = useState(null);
-    const [error, setError] = useState(null);
+    const [previewImage, setPreviewImage] = useState(
+        user?.foto ? `/storage/${user.foto}` : null
+    );
 
-    useEffect(() => {
-        console.log(errMessage);
-        setError(errMessage);
-    }, [errMessage]);
+    const [alert, setAlert] = useState({
+        type: "",
+        message: "",
+        visible: false,
+    }); // Alert State
 
     const handleFotoChange = (event) => {
         const file = event.target.files[0];
         setData("foto", file);
         if (file) {
             const reader = new FileReader();
-            reader.onloadend = () => {
-                setPreviewImage(reader.result);
-            };
+            reader.onloadend = () => setPreviewImage(reader.result);
             reader.readAsDataURL(file);
         }
     };
@@ -42,153 +40,187 @@ export default function TambahProfil({ auth, userId }) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(data);
-        router.put(route("profile.store", { id: userId }), {
-            _method: "PUT", // Optional, only needed if you're using a "POST" method to simulate PUT in HTML forms
-            data: data,
+        const formData = new FormData();
+
+        formData.append("userId", data.userId);
+        formData.append("nama", data.nama);
+        formData.append("tanggal_lahir", data.tanggal_lahir);
+        formData.append("no_telepon", data.no_telepon);
+        formData.append("jenis_kelamin", data.jenis_kelamin);
+        if (data.foto) formData.append("foto", data.foto);
+
+        formData.append("_method", "PUT");
+
+        router.post(route("user.profile.store", { id: userId }), formData, {
             onSuccess: () => {
-                console.log("Profile updated successfully");
+                setAlert({
+                    type: "success",
+                    message: "Profil berhasil diperbarui!",
+                    visible: true,
+                });
+                setTimeout(() => setAlert({ ...alert, visible: false }), 3000);
             },
-            onError: () => {
-                console.log("An error occurred");
+            onError: (error) => {
+                setAlert({
+                    type: "error",
+                    message: "Terjadi kesalahan saat memperbarui profil.",
+                    visible: true,
+                });
+                console.error("An error occurred", error);
+                setTimeout(() => setAlert({ ...alert, visible: false }), 3000);
             },
         });
     };
-    
 
     return (
         <UserLayout auth={auth}>
-            <section className={styles.content}>
-                <h1 className={styles.title}>LENGKAPI PROFIL ANDA</h1>
-                <div className={styles.contentWrapper}>
-                    <div className={styles.formWrapper}>
-                        <form
-                            onSubmit={handleSubmit}
-                            method="post"
-                            id={styles.form}
-                        >
-                            <div className={styles.row}>
-                                <div>
-                                    <label htmlFor="nama">Nama</label>
-                                    <input
-                                        type="text"
-                                        name="nama"
-                                        id="nama"
-                                        placeholder="John Doe"
-                                        autoComplete="off"
-                                        required
-                                        value={data.nama}
-                                        onChange={handleChange}
-                                    />
-                                    {error && <p>{error.nama}</p>}
-                                </div>
-                                <div>
-                                    <label htmlFor="tanggal_lahir">
-                                        Tanggal Lahir
-                                    </label>
-                                    <input
-                                        type="date"
-                                        name="tanggal_lahir"
-                                        id="tanggal_lahir"
-                                        value={data.tanggal_lahir}
-                                        onChange={handleChange}
-                                    />
-                                    {error && <p>{error.tanggal_lahir}</p>}
-                                </div>
-                            </div>
-
-                            <div className={styles.row}>
-                                <div>
-                                    <label htmlFor="no_telepon">
-                                        No Telepon
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="no_telepon"
-                                        id="no_telepon"
-                                        placeholder="08131259455"
-                                        autoComplete="off"
-                                        required
-                                        value={data.no_telepon}
-                                        onChange={handleChange}
-                                    />
-                                    {error && <p>{error.no_telepon}</p>}
-                                </div>
-
-                                <div>
-                                    <label htmlFor="jenis_kelamin">
-                                        Jenis Kelamin
-                                    </label>
-                                    <select
-                                        name="jenis_kelamin"
-                                        id="jenis_kelamin"
-                                        value={data.jenis_kelamin}
-                                        onChange={handleChange}
-                                    >
-                                        <option
-                                            disabled
-                                            value="Pilih Jenis Kelamin"
-                                        >
-                                            Pilih Jenis Kelamin
-                                        </option>
-                                        <option value="Laki-laki">
-                                            Laki-laki
-                                        </option>
-                                        <option value="Perempuan">
-                                            Perempuan
-                                        </option>
-                                    </select>
-                                    {error && <p>{error.jenis_kelamin}</p>}
-                                </div>
-                            </div>
-
-                            <div className={styles.row}>
-                                <div className={styles.rowImage}>
-                                    <div>
-                                        <label htmlFor="foto">
-                                            Foto Profil
-                                        </label>
-                                        <input
-                                            type="file"
-                                            name="foto"
-                                            id="foto"
-                                            onChange={handleFotoChange}
-                                        />
-                                    </div>
-                                    {previewImage ? (
-                                        <img
-                                            src={previewImage}
-                                            className={styles.imgPreview}
-                                            id="img-preview"
-                                            alt="Preview"
-                                            width="100px"
-                                        />
-                                    ) : (
-                                        <img
-                                            src="/images/preview.png"
-                                            className={styles.imgPreview}
-                                            id="img-preview"
-                                            alt=""
-                                            width="100px"
-                                        />
-                                    )}
-                                </div>
-                            </div>
-
-                            <div className={styles.btnWrapper}>
-                                <Link href="/" className={styles.btnBack}>
-                                    <i className="bx bx-arrow-back"></i> KEMBALI
-                                </Link>
-                                <button
-                                    type="submit"
-                                    className={styles.btnSubmit}
-                                >
-                                    <i className="bx bxs-save"></i> SUBMIT
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+            <h1 className="mt-4 text-6xl font-bold text-center text-gray-200 mb-12">
+                LENGKAPI PROFIL ANDA
+            </h1>
+            <section className="py-10 px-8 max-w-7xl mx-auto bg-gradient-to-r from-gray-100 to-white rounded-3xl shadow-lg mb-60">
+                {/* Alert Notification with Transition */}
+                <div
+                    className={`mb-6 p-2 rounded-lg transform transition-all duration-300 ${
+                        alert.visible
+                            ? "opacity-100 scale-100"
+                            : "opacity-0 scale-95"
+                    } ${
+                        alert.type === "success"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-red-100 text-red-700"
+                    }`}
+                >
+                    {alert.message}
                 </div>
+
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    {/* Foto Profil */}
+                    <div>
+                        {previewImage && (
+                            <div className="mt-4">
+                                <img
+                                    src={previewImage}
+                                    alt="Preview"
+                                    className="w-32 h-32 rounded-full object-cover shadow-lg mx-auto transition duration-300 transform hover:scale-110"
+                                />
+                            </div>
+                        )}
+                        {errors.foto && (
+                            <span className="text-red-500 text-sm">
+                                {errors.foto}
+                            </span>
+                        )}
+                        <label className="block text-3xl font-medium text-gray-700 mb-2">
+                            Foto Profil
+                        </label>
+                        <input
+                            type="file"
+                            name="foto"
+                            onChange={handleFotoChange}
+                            className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-200 transition duration-300"
+                        />
+                    </div>
+
+                    {/* Nama dan Tanggal Lahir */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label className="block text-3xl font-medium text-gray-700 mb-2">
+                                Nama
+                            </label>
+                            <input
+                                type="text"
+                                name="nama"
+                                value={data.nama}
+                                onChange={handleChange}
+                                className="w-full p-3 text-2xl border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-200 transition duration-300"
+                                placeholder="John Doe"
+                            />
+                            {errors.nama && (
+                                <span className="text-red-500 text-sm">
+                                    {errors.nama}
+                                </span>
+                            )}
+                        </div>
+                        <div>
+                            <label className="block text-3xl font-medium text-gray-700 mb-2">
+                                Tanggal Lahir
+                            </label>
+                            <input
+                                type="date"
+                                name="tanggal_lahir"
+                                value={data.tanggal_lahir}
+                                onChange={handleChange}
+                                className="w-full text-2xl p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-200 transition duration-300"
+                            />
+                            {errors.tanggal_lahir && (
+                                <span className="text-red-500 text-sm">
+                                    {errors.tanggal_lahir}
+                                </span>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* No Telepon dan Jenis Kelamin */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label className="block text-3xl font-medium text-gray-700 mb-2">
+                                No Telepon
+                            </label>
+                            <input
+                                type="text"
+                                name="no_telepon"
+                                value={data.no_telepon}
+                                onChange={handleChange}
+                                className="w-full text-2xl p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-200 transition duration-300"
+                                placeholder="08123456789"
+                            />
+                            {errors.no_telepon && (
+                                <span className="text-red-500 text-sm">
+                                    {errors.no_telepon}
+                                </span>
+                            )}
+                        </div>
+                        <div>
+                            <label className="block text-3xl font-medium text-gray-700 mb-2">
+                                Jenis Kelamin
+                            </label>
+                            <select
+                                name="jenis_kelamin"
+                                value={data.jenis_kelamin}
+                                onChange={handleChange}
+                                className="w-full text-2xl p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-200 transition duration-300"
+                                required
+                            >
+                                <option value="" disabled>
+                                    Pilih Jenis Kelamin
+                                </option>
+                                <option value="Laki-laki">Laki-laki</option>
+                                <option value="Perempuan">Perempuan</option>
+                            </select>
+                            {errors.jenis_kelamin && (
+                                <span className="text-red-500 text-sm">
+                                    {errors.jenis_kelamin}
+                                </span>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Buttons */}
+                    <div className="flex justify-between">
+                        <Link
+                            href="/"
+                            className="py-2 px-4 bg-gray-200 text-gray-700 rounded-lg shadow hover:bg-gray-300 transition duration-300"
+                        >
+                            Kembali
+                        </Link>
+                        <button
+                            type="submit"
+                            className="py-2 px-4 bg-orange-600 text-white rounded-lg shadow hover:bg-orange-700 transition duration-300"
+                        >
+                            Simpan
+                        </button>
+                    </div>
+                </form>
             </section>
         </UserLayout>
     );

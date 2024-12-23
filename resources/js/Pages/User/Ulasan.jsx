@@ -8,6 +8,7 @@ import moment from "moment";
 export default function Ulasan({
     auth,
     ulasans,
+    jenisLayanans,
     oneStar,
     twoStar,
     threeStar,
@@ -38,12 +39,14 @@ export default function Ulasan({
     const [reviewImages, setReviewImages] = useState([]);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [reviewsPerPage] = useState(10);
+    const [reviewsPerPage] = useState(4);
     const reviewListRef = useRef(null);
 
     const indexOfLastReview = currentPage * reviewsPerPage;
     const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
-    const currentReviews = ulasan.slice(indexOfFirstReview, indexOfLastReview);
+    const currentReviews = ulasan
+    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Mengurutkan ulasan berdasarkan waktu terbaru
+    .slice(indexOfFirstReview, indexOfLastReview);
 
     const totalPages = Math.ceil(ulasan.length / reviewsPerPage);
 
@@ -249,13 +252,9 @@ export default function Ulasan({
                                         <h4 className={styles["title-rate"]}>
                                             Jenis Layanan
                                         </h4>
-                                        <input
-                                            type="text"
-                                            id="jenis-layanan"
-                                            name="jenis-layanan"
+                                        <select
+                                            name="jenis_layanan"
                                             className={styles["input-text"]}
-                                            placeholder="Masukkan jenis layanan"
-                                            autoComplete="off"
                                             value={data.jenis_layanan}
                                             onChange={(e) =>
                                                 setData(
@@ -263,7 +262,19 @@ export default function Ulasan({
                                                     e.target.value
                                                 )
                                             }
-                                        />
+                                        >
+                                            <option value="">
+                                                Pilih jenis layanan
+                                            </option>
+                                            {jenisLayanans.map((jenis) => (
+                                                <option
+                                                    key={jenis.id}
+                                                    value={jenis.jenis_layanan}
+                                                >
+                                                    {jenis.jenis_layanan}
+                                                </option>
+                                            ))}
+                                        </select>
                                     </div>
 
                                     <div className={styles["rate"]}>
@@ -306,7 +317,7 @@ export default function Ulasan({
                                         </div>
                                     </div>
 
-                                    <Row>
+                                    {/* <Row>
                                         <Col>
                                             <div className={styles["img"]}>
                                                 <h4
@@ -392,7 +403,7 @@ export default function Ulasan({
                                                 )}
                                             </div>
                                         </Col>
-                                    </Row>
+                                    </Row> */}
 
                                     <div className={styles["desc"]}>
                                         <h4 className={styles["title-rate"]}>

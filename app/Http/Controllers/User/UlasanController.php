@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Ulasan;
 use App\Models\FotoUlasan;
+use App\Models\JenisLayanan;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Validator;
@@ -26,7 +27,9 @@ class UlasanController extends Controller
         $totalUlasan = Ulasan::count();
         $ulasans = Ulasan::with(['fotoUlasans', 'user'])->get();
         // dd($ulasans);
-        return Inertia::render('User/Ulasan', compact('ulasans', 'oneStar', 'twoStar', 'threeStar', 'fourStar', 'fiveStar', 'totalUlasan'));
+        $jenisLayanans = JenisLayanan::all(); // Ambil data dari tabel `jenis_layanans`
+
+        return Inertia::render('User/Ulasan', compact('ulasans', 'oneStar', 'twoStar', 'threeStar', 'fourStar', 'fiveStar', 'totalUlasan', 'jenisLayanans'));
     }
 
     /**

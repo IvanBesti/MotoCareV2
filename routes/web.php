@@ -132,7 +132,11 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['admin']], f
     })->name('about');
 
     Route::get('/tambah-profil/{id}', function ($id) {
-        return Inertia::render('User/TambahProfil', ['userId' => $id]);
+        $user = \App\Models\User::findOrFail($id);
+        return Inertia::render('User/TambahProfil', [
+            'user' => $user,
+            'userId' => $id
+        ]);
     })->name('tambah-profil');
 
     Route::put('/tambah-profil/{id}', [UserProfileController::class, 'store'])->name('profile.store');
@@ -148,6 +152,21 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['admin']], f
         return Inertia::render('User/FaQ');
     })->name('FaQ');
 })->name('user.');
+
+Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
+    // Tidak perlu login/verifikasi untuk ini
+    Route::get('/tutorial', [UserTutorialController::class, 'index'])->name('tutorial');
+    Route::get('/tutorial/search', [UserTutorialController::class, 'search'])->name('tutorial.search');
+    Route::get('/ulasan', [UserUlasanController::class, 'index'])->name('ulasan');
+    Route::get('/katalog', [UserKatalogController::class, 'index'])->name('katalog');
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/about', function () {
+        return Inertia::render('User/About');
+    })->name('about');
+    Route::get('/FaQ', function () {
+        return Inertia::render('User/FaQ');
+    })->name('FaQ');
+});
 
 Route::get('/', function () {
     return Inertia::render('Register');

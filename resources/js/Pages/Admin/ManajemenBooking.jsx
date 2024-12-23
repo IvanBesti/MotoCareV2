@@ -16,6 +16,8 @@ export default function ManajemenBooking({ bookings }) {
     const [showDetail, setShowDetail] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
     const [selectedBooking, setSelectedBooking] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10; 
 
     console.log(bookings);
 
@@ -158,7 +160,8 @@ export default function ManajemenBooking({ bookings }) {
     const columns = [
         {
             name: "No",
-            selector: (row, index) => index + 1,
+            selector: (row, index) =>
+                index + 1 + (currentPage - 1) * itemsPerPage,
             width: "7%",
         },
         {
@@ -325,10 +328,11 @@ export default function ManajemenBooking({ bookings }) {
                     </form>
                 </div>
                 <DataTable
-                    columns={columns}
-                    data={filteredBookings}
-                    pagination
-                />
+    columns={columns}
+    data={filteredBookings}
+    pagination
+    onChangePage={(page) => setCurrentPage(page)}
+/>
             </div>
 
             <Modal show={showDelete} onHide={handleCloseDelete}>

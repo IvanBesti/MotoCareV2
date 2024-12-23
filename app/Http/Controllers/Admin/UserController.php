@@ -117,10 +117,11 @@ class UserController extends Controller
 
         $validated = Validator::make($request->data, $validation);
 
-
         if ($validated->fails()) {
             return redirect()->back()->withErrors($validated->messages())->withInput();
         }
+
+        $user->update($validated->validated());
 
         
 
@@ -132,8 +133,8 @@ class UserController extends Controller
         $data['jenis_kelamin'] = $request->data['jenis_kelamin'];
         $data['role'] = $request->data['role'];
 
-        if ($request->data['foto']) {
-            if (Storage::disk('public')->exists($user->foto)) {
+        if (isset($request->data['foto']) && $request->data['foto'] instanceof \Illuminate\Http\UploadedFile) {
+            if ($user->foto && Storage::disk('public')->exists($user->foto)) {
                 Storage::disk('public')->delete($user->foto);
             }
             $path = $request->data['foto']->store('images/foto', 'public');

@@ -20,8 +20,9 @@ export default function Katalog({ katalogs, auth }) {
                 acc[product.merk].push(product);
                 return acc;
             }, {});
-    
-            const list_merk = Object.keys(list_all);21
+
+            const list_merk = Object.keys(list_all);
+            21;
             setMerkList(list_merk);
             setKatalogState(katalogs);
         } else {
@@ -96,7 +97,7 @@ export default function Katalog({ katalogs, auth }) {
             <div className={styles["backgroundImage"] + "my-5"}>
                 <main>
                     <article className={styles["article"]}>
-                    <h1 className={styles.title}>Katalog</h1>
+                        <h1 className={styles.title}>Katalog</h1>
                         <section className={styles.section}>
                             <div className="px-2">
                                 <div className={styles["row"]}>
@@ -126,26 +127,41 @@ export default function Katalog({ katalogs, auth }) {
                                                     />
                                                 </div>
                                                 <div id="merk-list">
-                                                    {merkList.map((merk) => (
-                                                        <div
-                                                            key={merk}
-                                                            id={merk}
+                                                    {merkList.length > 0 ? (
+                                                        merkList.map((merk) => (
+                                                            <div
+                                                                key={merk}
+                                                                id={merk}
+                                                                className={
+                                                                    styles[
+                                                                        "merk"
+                                                                    ]
+                                                                }
+                                                                onClick={(e) =>
+                                                                    handleBrandClick(
+                                                                        merk,
+                                                                        e
+                                                                    )
+                                                                }
+                                                                style={{
+                                                                    cursor: "pointer",
+                                                                }}
+                                                            >
+                                                                {merk}
+                                                            </div>
+                                                        ))
+                                                    ) : (
+                                                        <p
                                                             className={
-                                                                styles["merk"]
+                                                                styles[
+                                                                    "empty-message"
+                                                                ]
                                                             }
-                                                            onClick={(e) =>
-                                                                handleBrandClick(
-                                                                    merk,
-                                                                    e
-                                                                )
-                                                            }
-                                                            style={{
-                                                                cursor: "pointer",
-                                                            }}
                                                         >
-                                                            {merk}
-                                                        </div>
-                                                    ))}
+                                                            Tidak ada merk motor
+                                                            yang tersedia.
+                                                        </p>
+                                                    )}
                                                 </div>
                                             </div>
                                             <div id="lineup">
@@ -164,7 +180,7 @@ export default function Katalog({ katalogs, auth }) {
                                                     <input
                                                         type="text"
                                                         className="form-control mb3"
-                                                        id="cari-merk"
+                                                        id="cari-lineup"
                                                         value={searchLineup}
                                                         onChange={
                                                             handleLineupSearch
@@ -173,7 +189,7 @@ export default function Katalog({ katalogs, auth }) {
                                                     />
                                                 </div>
                                                 <div id="lineup-list">
-                                                    {lineupList &&
+                                                    {lineupList.length > 0 ? (
                                                         lineupList.map(
                                                             (lineup) => (
                                                                 <div
@@ -199,7 +215,20 @@ export default function Katalog({ katalogs, auth }) {
                                                                     {lineup}
                                                                 </div>
                                                             )
-                                                        )}
+                                                        )
+                                                    ) : (
+                                                        <p
+                                                            className={
+                                                                styles[
+                                                                    "empty-message"
+                                                                ]
+                                                            }
+                                                        >
+                                                            Tidak ada lineup
+                                                            produk yang
+                                                            tersedia.
+                                                        </p>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
@@ -207,7 +236,7 @@ export default function Katalog({ katalogs, auth }) {
                                             className={styles["right-panel"]}
                                             id="Konten"
                                         >
-                                            {currentProduct && (
+                                            {currentProduct ? (
                                                 <>
                                                     <img
                                                         title="Gambar"
@@ -261,6 +290,16 @@ export default function Katalog({ katalogs, auth }) {
                                                         }
                                                     </p>
                                                 </>
+                                            ) : (
+                                                <p
+                                                    className={
+                                                        styles["empty-message"]
+                                                    }
+                                                >
+                                                    Silakan pilih merk dan
+                                                    lineup produk untuk melihat
+                                                    detail.
+                                                </p>
                                             )}
                                         </div>
                                     </section>
