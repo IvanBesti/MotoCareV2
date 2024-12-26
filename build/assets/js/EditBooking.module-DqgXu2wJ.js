@@ -1,0 +1,1 @@
+const t="_form_1v98r_1",_="_label_1v98r_17",r="_input_1v98r_22",a="_select_1v98r_23",e="_catatan_1v98r_33",o={"form-wrapper":"_form-wrapper_1v98r_1","title-form":"_title-form_1v98r_6",form:t,label:_,input:r,select:a,catatan:e};export{o as s};

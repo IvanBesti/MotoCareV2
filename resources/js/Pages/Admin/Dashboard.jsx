@@ -1,4 +1,4 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import AdminLayout from "../../Layouts/AdminLayout";
 import { Row, Col, Card } from "react-bootstrap";
 // import PropTypes from "prop-types";
 import styles from "../../../css/Admin/Dashboard.module.css";

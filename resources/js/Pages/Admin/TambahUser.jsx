@@ -1,7 +1,7 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import AdminLayout from "../../Layouts/AdminLayout";
 import { Row, Col } from "react-bootstrap";
 import styles from "../../../css/Admin/TambahUser.module.css";
-import ButtonAdmin from "@/Components/ButtonAdmin";
+import ButtonAdmin from "../../Components/ButtonAdmin";
 import { Link } from "@inertiajs/react";
 import { useState, useEffect } from "react";
 import { route } from "ziggy-js";

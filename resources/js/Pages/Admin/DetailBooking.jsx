@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import AdminLayout from "@/Layouts/AdminLayout";
+import AdminLayout from "../../Layouts/AdminLayout";
 import styles from "../../../css/Admin/DetailBooking.module.css";
 import DataTable from "react-data-table-component";
 import { Row, Col, Table } from "react-bootstrap";
-import ButtonAdmin from "@/Components/ButtonAdmin";
+import ButtonAdmin from "../../Components/ButtonAdmin";
 import { Link, useForm, Head, router } from "@inertiajs/react";
 
 export default function DetailBooking({ dataBooking, totalPrice }) {

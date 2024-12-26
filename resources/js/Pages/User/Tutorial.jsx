@@ -1,4 +1,4 @@
-import UserLayout from "@/Layouts/UserLayout";
+import UserLayout from "../../Layouts/UserLayout";
 import styles from "../../../css/User/Tutorial.module.css";
 import { Row, Col, Button, Card } from "react-bootstrap";
 import { useState, useEffect, useForm } from "react";

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import "../../css/User/userGlobal.css";
 import styles from "../../css/User/LayoutStyles.module.css";
-import ChatBox from "@/Components/ChatBox";
+import ChatBox from "../Components/ChatBox";
 import { Link, router } from "@inertiajs/react";
 import { route } from "ziggy-js";
 import { useEffect } from "react";

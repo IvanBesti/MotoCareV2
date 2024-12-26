@@ -1,0 +1,1 @@
+import{j as r}from"./app-CKhyJ4gm.js";import{U as o}from"./UserLayout-Dp5mcvRC.js";/* empty css            */import"./index-Dx4H4bw4.js";function a(){return r.jsx(o,{children:r.jsx("h1",{children:"Thank you for registered. Check your email for verification."})})}export{a as default};

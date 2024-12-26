@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import UserLayout from "@/Layouts/UserLayout";
+import UserLayout from "../Layouts/UserLayout";
 import styles from "../../css/changePassword.module.css";
 import { useForm } from "@inertiajs/react";
 import { Link, router } from "@inertiajs/react";

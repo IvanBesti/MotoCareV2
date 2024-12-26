@@ -1,5 +1,5 @@
 import React from "react";
-import UserLayout from "@/Layouts/UserLayout";
+import UserLayout from "../../Layouts/UserLayout";
 import styles from "../../../css/User/Home.module.css";
 
 const HeroSection = ({ auth, results }) => {

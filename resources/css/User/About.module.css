@@ -211,7 +211,7 @@
   }
   
   .section-subtitle.\:dark::before {
-    background-image: url("../images/text-bars-light.png");
+    background-image: url("/public/images/text-bars-light.png");
   }
   
   .section-subtitle.\:light {
@@ -219,7 +219,7 @@
   }
   
   .section-subtitle.\:light::before {
-    background-image: url("../images/text-bars-dark.png");
+    background-image: url("/public/images/text-bars-dark.png");
   }
   
   .section-title {
@@ -451,7 +451,7 @@
   
   .active-navbar::before {
     opacity: 1;
-    content: url("../images/nav-before-img.png");
+    content: url("/public/images/nav-before-img.png");
     position: absolute;
     bottom: -8px;
     left: 50%;
@@ -903,7 +903,7 @@
     }
   
     .navbar-link::after {
-      content: url("../images/nav-before-img.png");
+      content: url("/public/images/nav-before-img.png");
       position: absolute;
       bottom: -8px;
       left: 50%;
@@ -964,7 +964,7 @@
       left: 0;
       width: 50%;
       height: 100%;
-      background-image: url("../images/about-abs-banner.png");
+      background-image: url("/public/images/about-abs-banner.png");
       background-repeat: no-repeat;
       background-size: cover;
       background-position: right;

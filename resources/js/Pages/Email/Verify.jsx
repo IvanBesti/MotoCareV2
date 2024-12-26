@@ -1,4 +1,4 @@
-import UserLayout from "@/Layouts/UserLayout";
+import UserLayout from "../../Layouts/UserLayout";
 export default function () {
     return (
         <UserLayout>

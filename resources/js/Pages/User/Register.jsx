@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useForm } from "@inertiajs/inertia-react";
-import UserLayout from "@/Layouts/UserLayout";
-import styles from "../../../css/User/Register.module.css";
+import UserLayout from "../../Layouts/UserLayout";
+import styles from "../../../css/Register.module.css";
 
 export default function Register() {
     const wrapperRef = useRef(null);

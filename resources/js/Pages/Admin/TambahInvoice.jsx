@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import AdminLayout from "@/Layouts/AdminLayout";
+import AdminLayout from "../../Layouts/AdminLayout";
 import { Row, Col, Button, Table } from "react-bootstrap";
 import styles from "../../../css/Admin/EditBooking.module.css";
-import ButtonAdmin from "@/Components/ButtonAdmin";
+import ButtonAdmin from "../../Components/ButtonAdmin";
 import { Link, useForm } from "@inertiajs/react";
 import DataTable from "react-data-table-component";
 import ReactSelect from "react-select";

@@ -1,9 +1,9 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import AdminLayout from "../../Layouts/AdminLayout";
 import styles from "../../../css/Admin/ManajemenJenisLayanan.module.css";
 import { Row, Col, Modal, Button, Table } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import { useState, useEffect } from "react";
-import ButtonAdmin from "@/Components/ButtonAdmin";
+import ButtonAdmin from "../../Components/ButtonAdmin";
 import "../../../css/Admin/AdminGlobal.css";
 import { Head, useForm, router } from "@inertiajs/react";
 // import { Inertia } from "@inertiajs/inertia";

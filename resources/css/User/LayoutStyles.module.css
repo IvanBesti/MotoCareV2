@@ -2,7 +2,7 @@
 
 
 body {
-    background-image: url("../../images/hero-banner.png");
+    background-image: url("/images/hero-banner.png");
     background-size: cover; /* Memastikan gambar mengisi seluruh elemen */
     background-repeat: no-repeat; /* Menghindari pengulangan gambar */
     background-position: center; /* Menempatkan gambar di tengah */
@@ -150,7 +150,7 @@ body {
 
 .active-navbar::before {
     opacity: 1;
-    content: url("../../images/nav-before-img.png");
+    content: url("/images/nav-before-img.png");
     position: absolute;
     bottom: -8px;
     left: 50%;

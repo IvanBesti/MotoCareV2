@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import AdminLayout from "@/Layouts/AdminLayout";
+import AdminLayout from "../../Layouts/AdminLayout";
 import DataTable from "react-data-table-component";
 import { Link } from "@inertiajs/react";
 import { Modal, Button, Table } from "react-bootstrap";

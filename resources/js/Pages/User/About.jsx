@@ -1,5 +1,5 @@
 import styles from "../../../css/User/About.module.css";
-import UserLayout from "@/Layouts/UserLayout";
+import UserLayout from "../../Layouts/UserLayout";
 
 export default function About({ auth }) {
     return (

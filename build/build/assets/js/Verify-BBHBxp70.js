@@ -1,0 +1,1 @@
+import{j as r}from"./app-CyaN6xsP.js";import{U as o}from"./UserLayout-DKIt1O_v.js";/* empty css            */import"./index-CEILWtln.js";function a(){return r.jsx(o,{children:r.jsx("h1",{children:"Thank you for registered. Check your email for verification."})})}export{a as default};

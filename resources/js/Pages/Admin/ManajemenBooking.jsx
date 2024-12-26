@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import AdminLayout from "@/Layouts/AdminLayout";
+import AdminLayout from "../../Layouts/AdminLayout";
 import styles from "../../../css/Admin/ManajemenBooking.module.css";
 import DataTable from "react-data-table-component";
-import ButtonAdmin from "@/Components/ButtonAdmin";
+import ButtonAdmin from "../../Components/ButtonAdmin";
 import { Link, useForm, Head, router } from "@inertiajs/react";
 import { Modal, Button } from "react-bootstrap";
 import moment from "moment";

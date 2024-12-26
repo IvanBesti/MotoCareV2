@@ -48,8 +48,8 @@ h1.title {
     color: var(--white);
 }
 
-.section-subtitle.\:dark::before {
-    background-image: url("../assets/images/text-bars-light.png");
+/* .section-subtitle.\:dark::before {
+    background-image: url("/public/assets/images/text-bars-light.png");
 }
 
 .section-subtitle.\:light {
@@ -57,8 +57,8 @@ h1.title {
 }
 
 .section-subtitle.\:light::before {
-    background-image: url("../assets/images/text-bars-dark.png");
-}
+    background-image: url("/public/assets/images/text-bars-dark.png");
+} */
 
 .section-title {
     text-align: center;
@@ -302,7 +302,7 @@ h1.title {
 }
 
 .backgroundImage {
-    background-image: url("../assets/images/hero-banner.png");
+    /* background-image: url("/public/assets/images/hero-banner.png"); */
     background-size: cover;
     background-position: center;
     display: block;
@@ -542,7 +542,7 @@ h1.title {
     }
 
     .navbar-link::after {
-        content: url("../assets/images/nav-before-img.png");
+        /* content: url("/public/assets/images/nav-before-img.png"); */
         position: absolute;
         bottom: -8px;
         left: 50%;

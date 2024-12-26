@@ -1,8 +1,8 @@
 import { usePage } from "@inertiajs/react";
 import { Row, Col, Table } from "react-bootstrap";
-import AdminLayout from "@/Layouts/AdminLayout";
+import AdminLayout from "../../Layouts/AdminLayout";
 import styles from "../../../css/Admin/DetailUser.module.css";
-import ButtonAdmin from "@/Components/ButtonAdmin";
+import ButtonAdmin from "../../Components/ButtonAdmin";
 import { Link } from "@inertiajs/react";
 import { route } from "ziggy-js";
 

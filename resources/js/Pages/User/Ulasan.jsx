@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import UserLayout from "@/Layouts/UserLayout";
+import UserLayout from "../../Layouts/UserLayout";
 import styles from "../../../css/User/Ulasan.module.css";
 import { Row, Col, Modal, Button } from "react-bootstrap";
 import { Head, useForm, router } from "@inertiajs/react";

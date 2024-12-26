@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import UserLayout from "@/Layouts/UserLayout";
+import UserLayout from "../../Layouts/UserLayout";
 import ReactSelect from "react-select";
 import { useForm, router } from "@inertiajs/react";
 

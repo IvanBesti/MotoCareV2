@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import UserLayout from "@/Layouts/UserLayout";
+import UserLayout from "../Layouts/UserLayout";
 import styles from "../../css/Register.module.css";
 import { useForm, router } from "@inertiajs/react";
 import { route } from "ziggy-js";

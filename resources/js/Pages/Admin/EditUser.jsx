@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import AdminLayout from "@/Layouts/AdminLayout";
+import AdminLayout from "../../Layouts/AdminLayout";
 import { Row, Col } from "react-bootstrap";
 import styles from "../../../css/Admin/EditUser.module.css";
-import ButtonAdmin from "@/Components/ButtonAdmin";
+import ButtonAdmin from "../../Components/ButtonAdmin";
 import { Link, usePage, useForm, router } from "@inertiajs/react";
 import { route } from "ziggy-js";
 

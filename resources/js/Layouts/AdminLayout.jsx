@@ -1,7 +1,7 @@
 import "../../css/Admin/AdminGlobal.css";
 import styles from "../../css/Admin/layoutStyles.module.css";
 import PropTypes from "prop-types";
-import { NavLink } from "@/Components/NavbarLink";
+import { NavLink } from "../Components/NavbarLink";
 import { route } from "ziggy-js";
 // import logo from "../assets/images/logo.png";
 // import { useLocation } from "react-router-dom";

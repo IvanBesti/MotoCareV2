@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import AdminLayout from "@/Layouts/AdminLayout";
+import AdminLayout from "../../Layouts/AdminLayout";
 import styles from "../../../css/Admin/ManajemenKatalog.module.css";
 import { Row, Col, Modal, Button, Table } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import { Link } from "@inertiajs/react";
-import ButtonAdmin from "@/Components/ButtonAdmin";
+import ButtonAdmin from "../../Components/ButtonAdmin";
 import { Head, useForm, router, usePage } from "@inertiajs/react";
 import { route } from "ziggy-js";
 import axios from "axios";
@@ -179,7 +179,7 @@ export default function ManajemenKatalog({ katalogs }) {
                 data: data,
                 headers: {
                     "Content-Type": "multipart/form-data",
-                    "Content-Type": "application/json",
+                    // "Content-Type": "application/json",
                     "X-CSRF-TOKEN": document
                         .querySelector('meta[name="csrf-token"]')
                         .getAttribute("content"),

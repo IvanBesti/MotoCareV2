@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { route } from "ziggy-js";
 import { useForm, Link, router } from "@inertiajs/react";
-import UserLayout from "@/Layouts/UserLayout";
+import UserLayout from "../../Layouts/UserLayout";
 
 export default function TambahProfil({ auth, userId, user }) {
     const { data, setData, errors } = useForm({

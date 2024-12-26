@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import UserLayout from "@/Layouts/UserLayout";
+import UserLayout from "../../Layouts/UserLayout";
 import { router } from "@inertiajs/react";
 
 export default function Riwayat({ bookings, users, invoices, auth }) {
